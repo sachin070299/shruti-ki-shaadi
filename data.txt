@@ -365,8 +365,20 @@
       "createdAt": "2026-11-15T09:47:37.332Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnirlfo1pk",
+      "event": "Shadi",
+      "category": "Electronics",
+      "name": "FRIDGE",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:47:56.595Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:47:37.333Z",
+  "updatedAt": "2026-11-15T09:47:56.595Z",
   "updatedBy": "Sachin"
 }
