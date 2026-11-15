@@ -203,8 +203,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn5qievdid",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Peetal ka lota",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:37:48.662Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:37:19.627Z",
+  "updatedAt": "2026-11-15T09:37:48.662Z",
   "updatedBy": "Sachin"
 }
