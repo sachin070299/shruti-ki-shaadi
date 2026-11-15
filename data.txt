@@ -75,10 +75,21 @@
       "notes": "5kg laddo ke liye",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:30:38.391Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhmx6ebklat",
+          "shop": "Dholikui",
+          "location": "Bharuch",
+          "price": 500,
+          "contact": "",
+          "notes": "",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T09:31:09.348Z"
+        }
+      ],
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:30:38.391Z",
+  "updatedAt": "2026-11-15T09:31:09.348Z",
   "updatedBy": "Sachin"
 }
