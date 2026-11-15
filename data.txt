@@ -111,8 +111,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn0itwzhft",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Peetal Katora",
+      "qty": "1",
+      "notes": "500 gm peele chawal ke liye",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:33:45.428Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:32:57.838Z",
+  "updatedAt": "2026-11-15T09:33:45.428Z",
   "updatedBy": "Sachin"
 }
