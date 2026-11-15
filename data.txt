@@ -305,10 +305,21 @@
       "notes": "Sare kitchen ka saaman dabbe kadhayi sab",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:43:02.606Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhncwzjtpka",
+          "shop": "Dholikui",
+          "location": "Bharuch",
+          "price": 10000,
+          "contact": "",
+          "notes": "",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T09:43:23.647Z"
+        }
+      ],
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:43:02.606Z",
+  "updatedAt": "2026-11-15T09:43:23.647Z",
   "updatedBy": "Sachin"
 }
