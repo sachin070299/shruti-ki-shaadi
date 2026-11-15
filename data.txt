@@ -1,6 +1,6 @@
 {
   "title": "Shruti ki Shaadi",
-  "weddingDate": "",
+  "weddingDate": "2027-01-25",
   "events": [
     "Lagan",
     "Shadi"
@@ -19,8 +19,7 @@
     "Gifts",
     "Other"
   ],
-  "items": [
-      ],
-  "updatedAt": null,
-  "updatedBy": null
+  "items": [],
+  "updatedAt": "2026-11-15T09:24:50.967Z",
+  "updatedBy": "Sachin"
 }
