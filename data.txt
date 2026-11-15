@@ -401,8 +401,20 @@
       "createdAt": "2026-11-15T09:48:34.245Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnjzbs3p9r",
+      "event": "Shadi",
+      "category": "Furniture",
+      "name": "Sofa",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:48:53.272Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:48:34.245Z",
+  "updatedAt": "2026-11-15T09:48:53.272Z",
   "updatedBy": "Sachin"
 }
