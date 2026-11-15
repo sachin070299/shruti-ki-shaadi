@@ -121,10 +121,21 @@
       "notes": "500 gm peele chawal ke liye",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:33:45.428Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhn16g3z7xm",
+          "shop": "Dholikui",
+          "location": "Bharuch",
+          "price": 500,
+          "contact": "",
+          "notes": "",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T09:34:16.035Z"
+        }
+      ],
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:33:45.428Z",
+  "updatedAt": "2026-11-15T09:34:16.035Z",
   "updatedBy": "Sachin"
 }
