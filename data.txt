@@ -328,10 +328,21 @@
       "notes": "2 tanki 20 ltr\n2 tanki 18 ltr\n2 tanki 12 ltr\n2 kalsiya 18 ltr\n2 jug 1.5 ltr\n2 lota 1 ltr \n2 dhakkan\n2 peetal diye",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:46:30.093Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhnhe7amv52",
+          "shop": "Dholikui",
+          "location": "Bharuch",
+          "price": 10000,
+          "contact": "",
+          "notes": "",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T09:46:52.583Z"
+        }
+      ],
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:46:30.093Z",
+  "updatedAt": "2026-11-15T09:46:52.583Z",
   "updatedBy": "Sachin"
 }
