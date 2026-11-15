@@ -413,8 +413,20 @@
       "createdAt": "2026-11-15T09:48:53.272Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnki7xewlk",
+      "event": "Shadi",
+      "category": "Furniture",
+      "name": "Bed",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:49:17.757Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:48:53.272Z",
+  "updatedAt": "2026-11-15T09:49:17.757Z",
   "updatedBy": "Sachin"
 }
