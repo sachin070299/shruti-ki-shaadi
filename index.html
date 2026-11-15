@@ -69,7 +69,7 @@ h1{font-family:"Great Vibes",cursive;font-weight:400;font-size:clamp(2.7rem,13vw
 .stat b{display:block;font-size:1.4rem;font-weight:600;line-height:1.2}
 .stat span{font-size:.82rem;opacity:.9}
 .stat.wide{grid-column:span 3;display:flex;justify-content:space-around;align-items:center;padding:12px 4px}
-.stat.wide b{font-size:1.25rem}
+.stat.wide b{font-size:1.15rem}.stat.wide>div{flex:1;min-width:0}
 .progress{max-width:640px;margin:14px auto 0}
 .bar{height:10px;border-radius:10px;background:rgba(255,255,255,.18);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:10px;transition:width .8s ease}
@@ -93,6 +93,9 @@ main{padding:4px var(--pad);max-width:900px;margin:0 auto}
 .group h2{font-size:1.15rem;color:var(--maroon);margin:22px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .group h2 .gname{display:flex;align-items:center;gap:10px}
 .group h2 .gicon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#fff1d6,#ffe1e8);font-size:1.2rem;box-shadow:inset 0 0 0 1px var(--line)}
+.gmoney{display:flex;gap:6px;margin:-4px 0 10px;flex-wrap:wrap}
+.gmoney span{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 8px;font-size:.78rem;color:var(--muted);text-align:center;line-height:1.3}
+.gmoney b{display:block;font-size:.98rem;color:var(--maroon);font-weight:600}
 .group h2 small{color:var(--muted);font-weight:500;font-size:.8rem;background:#fff;border:1px solid var(--line);padding:4px 10px;border-radius:12px;white-space:nowrap}
 .card{background:var(--card);border-radius:18px;padding:16px 16px 14px 18px;margin-bottom:12px;position:relative;
   box-shadow:0 2px 12px rgba(122,15,46,.07);border:1px solid var(--line);overflow:hidden;animation:rise .35s ease both}
@@ -233,13 +236,13 @@ main{padding:4px var(--pad);max-width:900px;margin:0 auto}
    (it ends with /exec). See README. No keys needed.
    ============================================================ */
 const CONFIG = {
-  apiUrl:   "https://script.google.com/macros/s/AKfycby2m4HSp5JTKB7Y0LXfK94Wiv1GR1qrtq3DkI_paEqslEt4J3llWrD_Mta0Z-ZYBZo/exec",                 // e.g. "https://script.google.com/macros/s/XXXX/exec"
+  apiUrl:   "https://script.google.com/macros/s/AKfycby2m4HSp5JTKB7Y0LXfK94Wiv1GR1qrtq3DkI_paEqslEt4J3llWrD_Mta0Z-ZYBZo/exec",// e.g. "https://script.google.com/macros/s/XXXX/exec"
   title:    "Shruti ki Shaadi",
   seedFile: "data.txt"          // used once to fill a brand-new online list
 };
 const CAT_ICON = {"Puja Samaan":"🪔","Bartan":"🍲","Electronics":"📺","Furniture":"🛋️","Bedding":"🛏️","Kapde":"👗","Jewellery":"💍",
   "Shringar":"💄","Decoration":"🎊","Mithai & Catering":"🍬","Gifts":"🎁","Other":"📦"};
-const EVENT_ICON = {"Lagun":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
+const EVENT_ICON = {"Lagan":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
 const catIcon = c => CAT_ICON[c] || "🛍️";
 const evIcon = e => EVENT_ICON[e] || "✨";
 
@@ -287,16 +290,28 @@ async function fetchSeed(){
   try { const r = await fetch(CONFIG.seedFile + "?t=" + Date.now(), { cache:"no-store" }); return r.ok ? parseData(await r.text()) : null; }
   catch { return null; }
 }
+let onlineErr = "";
 async function fetchRemote(){
   if (CONFIG.apiUrl) {
     try {
-      const r = await fetch(CONFIG.apiUrl + (CONFIG.apiUrl.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache:"no-store" });
-      const j = await r.json();
+      if (!/\/exec(\?|$)/.test(CONFIG.apiUrl.trim())) throw new Error("the apiUrl in index.html must be the Web app URL ending with /exec");
+      const r = await fetch(CONFIG.apiUrl.trim() + (CONFIG.apiUrl.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache:"no-store" });
+      const txt = await r.text();
+      let j;
+      try { j = JSON.parse(txt); }
+      catch { throw new Error("the Google script sent a web page instead of data. Re-deploy with 'Who has access: Anyone' and 'Execute as: Me'"); }
       if (j.ok) {
+        onlineErr = "";
         if (j.data && j.data.trim()) return { data: parseData(j.data), version: j.version, source:"online" };
         return { data: (await fetchSeed()) || emptyData(), version: j.version, source:"online" };   // first time: start from data.txt
       }
-    } catch (e) { console.warn("Online list not reachable", e); }
+      throw new Error("Google script error: " + (j.error || "unknown"));
+    } catch (e) {
+      onlineErr = /Failed to fetch|NetworkError|Load failed/i.test(e.message)
+        ? "can't connect to the Google script. Check internet, and that the deployment's access is 'Anyone' (not 'Anyone with Google account')"
+        : e.message;
+      console.warn("Online list not reachable:", onlineErr);
+    }
   }
   const seed = await fetchSeed();
   if (!seed) throw new Error("Could not load the list. Please check internet and tap ⟳");
@@ -319,7 +334,7 @@ async function load(quiet){
 function statusLine(){
   let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Family list";
   if (!CONFIG.apiUrl) s += " · ⚠ Saving not set up yet (view only)";
-  else if (lastSource === "file") s += " · ⚠ Offline copy – tap ⟳";
+  else if (lastSource === "file") s += " · ⚠ Not connected – " + (onlineErr || "tap ⟳");
   return s;
 }
 function canEdit(retry){
@@ -348,7 +363,7 @@ async function mutate(change, message){
   try {
     for (let attempt = 0; attempt < 5; attempt++) {
       const latest = await fetchRemote();
-      if (latest.source !== "online") throw new Error("couldn't reach the online list. Check internet and try again.");
+      if (latest.source !== "online") throw new Error(onlineErr || "couldn't reach the online list. Check internet and try again.");
       change(latest.data);
       latest.data.updatedAt = nowISO(); latest.data.updatedBy = S.name;
       const r = await fetch(CONFIG.apiUrl, { method:"POST", body: JSON.stringify({ version: latest.version, data: JSON.stringify(latest.data, null, 2), by: S.name, message }) });
@@ -398,7 +413,9 @@ function render(){
   $("#catFilter").innerHTML = `<option value="All">All categories</option>` +
     data.categories.map(c => `<option ${F.cat===c?"selected":""} value="${esc(c)}">${catIcon(c)} ${esc(c)}</option>`).join("");
 
-  const scope = evItems(F.event);
+  const q = F.q.toLowerCase();
+  const matchQ = i => !q || [i.name, i.notes, i.category, i.event, ...i.quotes.map(x => x.shop + " " + x.location)].join(" ").toLowerCase().includes(q);
+  const scope = evItems(F.event).filter(i => (F.cat === "All" || i.category === F.cat) && matchQ(i));
   const done = scope.filter(isDone), pending = scope.filter(i => !isDone(i));
   const spent = done.reduce((s,i) => s + (num(i.purchase.price) || 0), 0);
   const est = pending.reduce((s,i) => { const l = lowestQuote(i); return s + (l ? num(l.price) : 0); }, 0);
@@ -406,17 +423,13 @@ function render(){
     <div class="stat"><b>${scope.length}</b><span>Total items</span></div>
     <div class="stat"><b>${pending.length}</b><span>⏳ Pending</span></div>
     <div class="stat"><b>${done.length}</b><span>✅ Done</span></div>
-    <div class="stat wide"><div><b>${money(spent)}</b><span>Spent so far</span></div><div><b>${money(est)}</b><span>Est. pending*</span></div></div>`;
+    <div class="stat wide"><div><b>${money(spent)}</b><span>Spent so far</span></div><div><b>${money(est)}</b><span>Est. pending*</span></div><div><b>${money(spent + est)}</b><span>Total budget</span></div></div>`;
   const pct = scope.length ? Math.round(done.length / scope.length * 100) : 0;
   $("#barFill").style.width = pct + "%";
-  $("#barText").textContent = `${pct}% shopping complete${F.event !== "All" ? " for " + F.event : ""}`;
+  const label = [F.event !== "All" ? F.event : "", F.cat !== "All" ? F.cat : "", F.q ? `"${F.q}"` : ""].filter(Boolean).join(" · ");
+  $("#barText").textContent = `${pct}% shopping complete${label ? " · " + label : ""}`;
 
-  const q = F.q.toLowerCase();
-  const items = scope.filter(i =>
-    (F.cat === "All" || i.category === F.cat) &&
-    (F.status === "all" || (F.status === "done") === isDone(i)) &&
-    (!q || [i.name, i.notes, i.category, i.event, ...i.quotes.map(x => x.shop + " " + x.location)].join(" ").toLowerCase().includes(q))
-  );
+  const items = scope.filter(i => F.status === "all" || (F.status === "done") === isDone(i));
   if (!items.length) {
     $("#list").innerHTML = `<div class="empty"><span class="big">${data.items.length ? "🔍" : "🛍️"}</span>${data.items.length ? "No items match these filters." : "No items yet.<br>Tap <b>＋ Add Item</b> to start the list 🎉"}</div>`;
     return;
@@ -428,7 +441,10 @@ function render(){
       .sort((a,b) => (isDone(a) - isDone(b)) || String(a.createdAt).localeCompare(String(b.createdAt)));
     if (!group.length) return "";
     const p = group.filter(i => !isDone(i)).length;
-    return `<section class="group"><h2><span class="gname"><span class="gicon">${catIcon(c)}</span>${esc(c)}</span><small>${p} pending · ${group.length - p} done</small></h2>${group.map(i => cardHTML(i, firstRender ? Math.min(n++, 12) : 0)).join("")}</section>`;
+    const gSpent = group.filter(isDone).reduce((s,i) => s + (num(i.purchase.price) || 0), 0);
+    const gEst = group.filter(i => !isDone(i)).reduce((s,i) => { const l = lowestQuote(i); return s + (l ? num(l.price) : 0); }, 0);
+    return `<section class="group"><h2><span class="gname"><span class="gicon">${catIcon(c)}</span>${esc(c)}</span><small>${p} pending · ${group.length - p} done</small></h2>
+      <div class="gmoney"><span>✅ Spent <b>${money(gSpent)}</b></span><span>⏳ Pending <b>${money(gEst)}</b></span><span>Total <b>${money(gSpent + gEst)}</b></span></div>${group.map(i => cardHTML(i, firstRender ? Math.min(n++, 12) : 0)).join("")}</section>`;
   }).join("") + `<div class="foot"><span class="hearts">🌸 💛 🌸</span>* Est. pending = total of the lowest price noted for each pending item<br>Made with love for Shruti</div>`;
   firstRender = false;
 }
