@@ -249,8 +249,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn7wn6qf2d",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Peetal Thali",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:39:29.923Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:39:11.308Z",
+  "updatedAt": "2026-11-15T09:39:29.923Z",
   "updatedBy": "Sachin"
 }
