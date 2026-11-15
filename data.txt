@@ -226,8 +226,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn6pr1tcqh",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Kalsiya 5ltr",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:38:34.333Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:38:08.771Z",
+  "updatedAt": "2026-11-15T09:38:34.334Z",
   "updatedBy": "Sachin"
 }
