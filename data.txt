@@ -183,7 +183,7 @@
     },
     {
       "id": "mwhn4ja9ukfv",
-      "event": "Lagan",
+      "event": "Shadi",
       "category": "Bartan",
       "name": "Peetal Bela",
       "qty": "2",
@@ -320,6 +320,6 @@
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:43:39.838Z",
+  "updatedAt": "2026-11-15T09:43:57.725Z",
   "updatedBy": "Sachin"
 }
