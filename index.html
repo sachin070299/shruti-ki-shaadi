@@ -240,9 +240,18 @@ const CONFIG = {
   title:  "Shruti ki Shaadi",
   // Built-in family key: paste the code from ⚙ → Owner setup → "Make built-in key" between the quotes.
   // Then family members only need to type their name – no key needed.
-  familyKey: "elJJc3ZpVVNXSTNWWkdEUFR2Q2lJUWFGWGNmeGxTRkQ4Uk9jckRDYjBwZzRQMnRmeGNkcmhxRUZ3VXBfNE9SZERQcVg0THhhMEk1S0hBWUExMV90YXBfYnVodGln"
+  familyKey: ""
 };
-const builtInKey = (() => { try { return CONFIG.familyKey ? atob(CONFIG.familyKey).split("").reverse().join("") : ""; } catch { return ""; } })();
+const MIX = "shruti-ki-shaadi";
+const scramble = t => "v2" + Array.from(t, (c, i) => (c.charCodeAt(0) ^ MIX.charCodeAt(i % MIX.length)).toString(16).padStart(2, "0")).join("");
+const unscramble = k => {
+  if (!k) return "";
+  try {
+    if (k.startsWith("v2")) return k.slice(2).match(/../g).map((h, i) => String.fromCharCode(parseInt(h, 16) ^ MIX.charCodeAt(i % MIX.length))).join("");
+    return atob(k).split("").reverse().join("");
+  } catch { return ""; }
+};
+const builtInKey = unscramble(CONFIG.familyKey.trim());
 const CAT_ICON = {"Puja Samaan":"🪔","Bartan":"🍲","Electronics":"📺","Furniture":"🛋️","Bedding":"🛏️","Kapde":"👗","Jewellery":"💍",
   "Shringar":"💄","Decoration":"🎊","Mithai & Catering":"🍬","Gifts":"🎁","Other":"📦"};
 const EVENT_ICON = {"Lagan":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
@@ -310,14 +319,21 @@ const F = { event:"All", cat:"All", status:"all", q:"" };
 const apiUrl = () => `https://api.github.com/repos/${S.owner}/${S.repo}/contents/${S.path}`;
 function ghHeaders(){ const h = { Accept:"application/vnd.github+json" }; if (S.token) h.Authorization = "Bearer " + S.token; return h; }
 
+let keyRejected = false;
 async function fetchRemote(){
   if (S.owner && S.repo) {
     try {
-      const r = await fetch(apiUrl() + "?ref=" + encodeURIComponent(S.branch), { headers: ghHeaders(), cache:"no-store" });
-      if (r.ok) { const j = await r.json(); return { data: parseData(b64dec(j.content)), sha: j.sha, source:"github" }; }
-      if (r.status === 404 && S.token) return { data: emptyData(), sha: null, source:"github" };
-      if (r.status === 401) throw new Error("Access key is wrong or expired (check ⚙ Settings)");
-    } catch (e) { if (/Access key/.test(e.message)) throw e; }
+      const url = apiUrl() + "?ref=" + encodeURIComponent(S.branch);
+      let r = await fetch(url, { headers: ghHeaders(), cache:"no-store" });
+      if (r.status === 401 && localStorage.getItem(LS("token")) && builtInKey) {
+        localStorage.removeItem(LS("token"));               // old key saved on this phone – use the built-in one
+        r = await fetch(url, { headers: ghHeaders(), cache:"no-store" });
+      }
+      keyRejected = r.status === 401;
+      if (keyRejected) r = await fetch(url, { headers: { Accept:"application/vnd.github+json" }, cache:"no-store" }); // still show the list
+      if (r.ok) { const j = await r.json(); return { data: parseData(b64dec(j.content)), sha: j.sha, source: keyRejected ? "readonly" : "github" }; }
+      if (r.status === 404 && S.token && !keyRejected) return { data: emptyData(), sha: null, source:"github" };
+    } catch (e) {}
   }
   const r = await fetch(S.path + "?t=" + Date.now(), { cache:"no-store" });
   if (!r.ok) throw new Error("Could not load " + S.path);
@@ -339,6 +355,7 @@ async function load(quiet){
 function statusLine(source){
   let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Synced with family list";
   if (!S.token) s += " · ⚠ Setup not finished (owner: add the family key)";
+  else if (keyRejected) s += " · ⚠ Family key expired – view only";
   else if (source === "file") s += " · ⚠ couldn't reach GitHub";
   return s;
 }
@@ -368,6 +385,7 @@ async function mutate(change, message){
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
       const latest = await fetchRemote();
+      if (keyRejected) throw new Error("the family key was refused by GitHub. The page owner needs to make a new key.");
       if (latest.source !== "github") throw new Error("Cannot reach GitHub. Check internet / settings.");
       change(latest.data);
       latest.data.updatedAt = nowISO(); latest.data.updatedBy = S.name;
@@ -375,7 +393,8 @@ async function mutate(change, message){
       if (latest.sha) body.sha = latest.sha;
       const r = await fetch(apiUrl(), { method:"PUT", headers:{ ...ghHeaders(), "Content-Type":"application/json" }, body: JSON.stringify(body) });
       if (r.status === 409 || r.status === 422) { await new Promise(res => setTimeout(res, 600 + Math.random()*800)); continue; }
-      if (r.status === 401 || r.status === 403) throw new Error("Access key doesn't have permission to save (check ⚙ Settings)");
+      if (r.status === 401) { keyRejected = true; throw new Error("the family key was refused by GitHub. The page owner needs to make a new key."); }
+      if (r.status === 403) throw new Error("the key can't write to this repo. Give it 'Contents: Read and write' permission.");
       if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.message || "HTTP " + r.status); }
       const j = await r.json();
       data = latest.data; sha = j.content.sha;
@@ -646,7 +665,7 @@ function openSettings(msg){
   $("#embedBtn").onclick = async () => {
     const tok = mBody.querySelector("[name=token]").value.trim();
     if (!tok) { toast("Paste your GitHub key in the box above first", true); return; }
-    const code = btoa(tok.split("").reverse().join(""));
+    const code = scramble(tok);
     try { await navigator.clipboard.writeText(code); toast("Copied! Paste it into familyKey in index.html"); }
     catch { prompt("Copy this and paste into familyKey in index.html:", code); }
   };
