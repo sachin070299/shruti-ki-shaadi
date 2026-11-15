@@ -157,8 +157,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn3lsg5rk1",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Peetal Chamcha",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:36:09.232Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:35:41.640Z",
+  "updatedAt": "2026-11-15T09:36:09.232Z",
   "updatedBy": "Sachin"
 }
