@@ -425,8 +425,20 @@
       "createdAt": "2026-11-15T09:49:17.757Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnl8z2fxt8",
+      "event": "Shadi",
+      "category": "Furniture",
+      "name": "Almari",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:49:52.430Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:49:17.757Z",
+  "updatedAt": "2026-11-15T09:49:52.430Z",
   "updatedBy": "Sachin"
 }
