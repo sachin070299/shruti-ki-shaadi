@@ -65,8 +65,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhmwiif9fq7",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Stell caserol (dabba)",
+      "qty": "1",
+      "notes": "5kg laddo ke liye",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:30:38.391Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:29:19.184Z",
+  "updatedAt": "2026-11-15T09:30:38.391Z",
   "updatedBy": "Sachin"
 }
