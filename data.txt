@@ -377,8 +377,20 @@
       "createdAt": "2026-11-15T09:47:56.595Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnj438cvo6",
+      "event": "Shadi",
+      "category": "Electronics",
+      "name": "Washing Machine",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:48:12.788Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:47:56.595Z",
+  "updatedAt": "2026-11-15T09:48:12.788Z",
   "updatedBy": "Sachin"
 }
