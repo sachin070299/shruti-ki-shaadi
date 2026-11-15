@@ -134,8 +134,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn2clzpzoe",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Tamhadi 10 ltr",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:35:10.679Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:34:16.035Z",
+  "updatedAt": "2026-11-15T09:35:10.679Z",
   "updatedBy": "Sachin"
 }
