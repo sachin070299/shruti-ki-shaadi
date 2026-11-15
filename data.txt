@@ -275,7 +275,7 @@
     },
     {
       "id": "mwhn9m97d5ml",
-      "event": "Lagan",
+      "event": "Shadi",
       "category": "Bartan",
       "name": "Masaldani",
       "qty": "1",
@@ -320,6 +320,6 @@
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:43:57.725Z",
+  "updatedAt": "2026-11-15T09:44:17.598Z",
   "updatedBy": "Sachin"
 }
