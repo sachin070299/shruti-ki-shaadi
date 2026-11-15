@@ -437,8 +437,20 @@
       "createdAt": "2026-11-15T09:49:52.430Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnlorrs8kv",
+      "event": "Shadi",
+      "category": "Furniture",
+      "name": "Dressign table",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:50:12.903Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:49:52.430Z",
+  "updatedAt": "2026-11-15T09:50:12.903Z",
   "updatedBy": "Sachin"
 }
