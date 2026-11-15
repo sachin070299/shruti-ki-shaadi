@@ -272,8 +272,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhn9m97d5ml",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Masaldani",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:40:49.771Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:39:49.394Z",
+  "updatedAt": "2026-11-15T09:40:49.777Z",
   "updatedBy": "Sachin"
 }
