@@ -361,6 +361,16 @@
           "notes": "Onida 1.5 ltr",
           "addedBy": "Sachin",
           "date": "2026-11-15T12:03:28.336Z"
+        },
+        {
+          "id": "mwhsdqrqa0d4",
+          "shop": "Jeet electronics",
+          "location": "Bharuch",
+          "price": 34500,
+          "contact": "",
+          "notes": "Godrej 1.5 ltr",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T12:04:00.326Z"
         }
       ],
       "purchase": null
@@ -462,6 +472,6 @@
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T12:03:28.338Z",
+  "updatedAt": "2026-11-15T12:04:00.326Z",
   "updatedBy": "Sachin"
 }
