@@ -88,8 +88,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhmyt4crj3y",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "11 Thali 22 Katori 11 glass 11 chammach",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:32:25.452Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:31:42.826Z",
+  "updatedAt": "2026-11-15T09:32:25.452Z",
   "updatedBy": "Sachin"
 }
