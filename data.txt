@@ -353,8 +353,20 @@
       "createdAt": "2026-11-15T09:47:21.742Z",
       "quotes": [],
       "purchase": null
+    },
+    {
+      "id": "mwhnicqcstso",
+      "event": "Shadi",
+      "category": "Electronics",
+      "name": "TV",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:47:37.332Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:47:21.742Z",
+  "updatedAt": "2026-11-15T09:47:37.333Z",
   "updatedBy": "Sachin"
 }
