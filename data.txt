@@ -42,8 +42,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhmtzzd6qs9",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Peetal katori chammach glass",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:28:41.065Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:26:51.149Z",
+  "updatedAt": "2026-11-15T09:28:41.065Z",
   "updatedBy": "Sachin"
 }
