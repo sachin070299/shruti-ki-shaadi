@@ -341,8 +341,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhni0pa78yz",
+      "event": "Shadi",
+      "category": "Electronics",
+      "name": "AC",
+      "qty": "1",
+      "notes": "",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:47:21.742Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:46:52.583Z",
+  "updatedAt": "2026-11-15T09:47:21.742Z",
   "updatedBy": "Sachin"
 }
