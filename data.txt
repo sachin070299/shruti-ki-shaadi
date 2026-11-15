@@ -318,8 +318,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhngwul6pxh",
+      "event": "Shadi",
+      "category": "Bartan",
+      "name": "Darwaja ka set",
+      "qty": "1",
+      "notes": "2 tanki 20 ltr\n2 tanki 18 ltr\n2 tanki 12 ltr\n2 kalsiya 18 ltr\n2 jug 1.5 ltr\n2 lota 1 ltr \n2 dhakkan\n2 peetal diye",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:46:30.093Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:44:17.598Z",
+  "updatedAt": "2026-11-15T09:46:30.093Z",
   "updatedBy": "Sachin"
 }
