@@ -351,7 +351,18 @@
       "notes": "",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:47:21.742Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhsd234uhgb",
+          "shop": "Jeet electronics",
+          "location": "Bharuch",
+          "price": 30500,
+          "contact": "",
+          "notes": "Onida 1.5 ltr",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T12:03:28.336Z"
+        }
+      ],
       "purchase": null
     },
     {
@@ -451,6 +462,6 @@
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:50:12.903Z",
+  "updatedAt": "2026-11-15T12:03:28.338Z",
   "updatedBy": "Sachin"
 }
