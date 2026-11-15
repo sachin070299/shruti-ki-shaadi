@@ -2,7 +2,7 @@
   "title": "Shruti ki Shaadi",
   "weddingDate": "2027-01-25",
   "events": [
-    "Lagan",
+    "Lagun",
     "Shadi"
   ],
   "categories": [
@@ -22,7 +22,7 @@
   "items": [
     {
       "id": "mwhmqgw6pm8y",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "PARAT",
       "qty": "1",
@@ -45,7 +45,7 @@
     },
     {
       "id": "mwhmtzzd6qs9",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Peetal katori chammach glass",
       "qty": "1",
@@ -68,7 +68,7 @@
     },
     {
       "id": "mwhmwiif9fq7",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Stell caserol (dabba)",
       "qty": "1",
@@ -91,7 +91,7 @@
     },
     {
       "id": "mwhmyt4crj3y",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "11 Thali 22 Katori 11 glass 11 chammach",
       "qty": "1",
@@ -114,7 +114,7 @@
     },
     {
       "id": "mwhn0itwzhft",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Peetal Katora",
       "qty": "1",
@@ -137,7 +137,7 @@
     },
     {
       "id": "mwhn2clzpzoe",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Tamhadi 10 ltr",
       "qty": "1",
@@ -160,7 +160,7 @@
     },
     {
       "id": "mwhn3lsg5rk1",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Peetal Chamcha",
       "qty": "1",
@@ -206,7 +206,7 @@
     },
     {
       "id": "mwhn5qievdid",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Peetal ka lota",
       "qty": "1",
@@ -229,7 +229,7 @@
     },
     {
       "id": "mwhn6pr1tcqh",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Kalsiya 5ltr",
       "qty": "1",
@@ -252,7 +252,7 @@
     },
     {
       "id": "mwhn7wn6qf2d",
-      "event": "Lagan",
+      "event": "Lagun",
       "category": "Bartan",
       "name": "Peetal Thali",
       "qty": "1",
