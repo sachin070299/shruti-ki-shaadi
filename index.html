@@ -229,29 +229,14 @@ main{padding:4px var(--pad);max-width:900px;margin:0 auto}
 
 <script>
 /* ============================================================
-   CONFIG – fill owner & repo (or leave blank: auto-detected
-   when the page is opened from https://OWNER.github.io/REPO/)
+   CONFIG – paste your Google Apps Script web-app URL below
+   (it ends with /exec). See README. No keys needed.
    ============================================================ */
 const CONFIG = {
-  owner:  "",            // your GitHub username
-  repo:   "",            // repository name, e.g. "shruti-ki-shaadi"
-  branch: "main",
-  path:   "data.txt",
-  title:  "Shruti ki Shaadi",
-  // Built-in family key: paste the code from ⚙ → Owner setup → "Make built-in key" between the quotes.
-  // Then family members only need to type their name – no key needed.
-  familyKey: "UWFjNkpCNGtSWktKR1FIN3lveW1yTU9QZEI4RFd0MWk3c1JMRUlYT3JXeFpuQlNsbDBEQzdCdHFHSjBfTGNMZ01wNGlzbTJrMEk1S0hBWUExMV90YXBfYnVodGln"
+  apiUrl:   "",                 // e.g. "https://script.google.com/macros/s/XXXX/exec"
+  title:    "Shruti ki Shaadi",
+  seedFile: "data.txt"          // used once to fill a brand-new online list
 };
-const MIX = "shruti-ki-shaadi";
-const scramble = t => "v2" + Array.from(t, (c, i) => (c.charCodeAt(0) ^ MIX.charCodeAt(i % MIX.length)).toString(16).padStart(2, "0")).join("");
-const unscramble = k => {
-  if (!k) return "";
-  try {
-    if (k.startsWith("v2")) return k.slice(2).match(/../g).map((h, i) => String.fromCharCode(parseInt(h, 16) ^ MIX.charCodeAt(i % MIX.length))).join("");
-    return atob(k).split("").reverse().join("");
-  } catch { return ""; }
-};
-const builtInKey = unscramble(CONFIG.familyKey.trim());
 const CAT_ICON = {"Puja Samaan":"🪔","Bartan":"🍲","Electronics":"📺","Furniture":"🛋️","Bedding":"🛏️","Kapde":"👗","Jewellery":"💍",
   "Shringar":"💄","Decoration":"🎊","Mithai & Catering":"🍬","Gifts":"🎁","Other":"📦"};
 const EVENT_ICON = {"Lagan":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
@@ -275,29 +260,11 @@ let toastTimer;
 function toast(msg, err){ const t=$("#toast"); t.textContent=msg; t.className="show"+(err?" err":""); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.className="", err?4000:2200); }
 function setSync(msg){ $("#syncStatus").textContent = msg; }
 
-/* ---------- settings (stored per phone) ---------- */
-function detectRepo(){
-  const h = location.hostname;
-  if (!h.endsWith(".github.io")) return {};
-  const owner = h.split(".")[0];
-  const seg = location.pathname.split("/").filter(Boolean)[0];
-  return { owner, repo: (seg && !seg.includes(".")) ? seg : h };
-}
-const auto = detectRepo();
+/* ---------- this phone remembers only the name ---------- */
 const S = {
   get name(){ return localStorage.getItem(LS("name")) || ""; },
-  get token(){ return localStorage.getItem(LS("token")) || builtInKey; },
-  get owner(){ return localStorage.getItem(LS("owner")) || CONFIG.owner || auto.owner || ""; },
-  get repo(){ return localStorage.getItem(LS("repo")) || CONFIG.repo || auto.repo || ""; },
-  get branch(){ return localStorage.getItem(LS("branch")) || CONFIG.branch; },
-  get path(){ return localStorage.getItem(LS("path")) || CONFIG.path; },
   set(k, v){ v ? localStorage.setItem(LS(k), v) : localStorage.removeItem(LS(k)); }
 };
-// Share link: ...#t=TOKEN saves the key on this phone, then hides it from the address bar
-(function(){
-  const hp = new URLSearchParams(location.hash.slice(1));
-  if (hp.get("t")) { S.set("token", hp.get("t")); history.replaceState(null, "", location.pathname + location.search); }
-})();
 
 /* ---------- data ---------- */
 const DEFAULT_EVENTS = ["Lagan", "Shadi"];
@@ -312,56 +279,52 @@ function parseData(text){
   d.items.forEach(i => { i.quotes = Array.isArray(i.quotes) ? i.quotes : []; i.purchase = i.purchase || null; });
   return d;
 }
-let data = emptyData(), sha = null, firstRender = true;
+let data = emptyData(), version = null, firstRender = true;
 const F = { event:"All", cat:"All", status:"all", q:"" };
 
-/* ---------- GitHub storage ---------- */
-const apiUrl = () => `https://api.github.com/repos/${S.owner}/${S.repo}/contents/${S.path}`;
-function ghHeaders(){ const h = { Accept:"application/vnd.github+json" }; if (S.token) h.Authorization = "Bearer " + S.token; return h; }
-
-let keyRejected = false;
+/* ---------- online storage (Google Apps Script) ---------- */
+async function fetchSeed(){
+  try { const r = await fetch(CONFIG.seedFile + "?t=" + Date.now(), { cache:"no-store" }); return r.ok ? parseData(await r.text()) : null; }
+  catch { return null; }
+}
 async function fetchRemote(){
-  if (S.owner && S.repo) {
+  if (CONFIG.apiUrl) {
     try {
-      const url = apiUrl() + "?ref=" + encodeURIComponent(S.branch);
-      let r = await fetch(url, { headers: ghHeaders(), cache:"no-store" });
-      if (r.status === 401 && localStorage.getItem(LS("token")) && builtInKey) {
-        localStorage.removeItem(LS("token"));               // old key saved on this phone – use the built-in one
-        r = await fetch(url, { headers: ghHeaders(), cache:"no-store" });
+      const r = await fetch(CONFIG.apiUrl + (CONFIG.apiUrl.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache:"no-store" });
+      const j = await r.json();
+      if (j.ok) {
+        if (j.data && j.data.trim()) return { data: parseData(j.data), version: j.version, source:"online" };
+        return { data: (await fetchSeed()) || emptyData(), version: j.version, source:"online" };   // first time: start from data.txt
       }
-      keyRejected = r.status === 401;
-      if (keyRejected) r = await fetch(url, { headers: { Accept:"application/vnd.github+json" }, cache:"no-store" }); // still show the list
-      if (r.ok) { const j = await r.json(); return { data: parseData(b64dec(j.content)), sha: j.sha, source: keyRejected ? "readonly" : "github" }; }
-      if (r.status === 404 && S.token && !keyRejected) return { data: emptyData(), sha: null, source:"github" };
-    } catch (e) {}
+    } catch (e) { console.warn("Online list not reachable", e); }
   }
-  const r = await fetch(S.path + "?t=" + Date.now(), { cache:"no-store" });
-  if (!r.ok) throw new Error("Could not load " + S.path);
-  return { data: parseData(await r.text()), sha: null, source:"file" };
+  const seed = await fetchSeed();
+  if (!seed) throw new Error("Could not load the list. Please check internet and tap ⟳");
+  return { data: seed, version: null, source:"file" };
 }
 
+let lastSource = "";
 async function load(quiet){
   if (!quiet) setSync("Loading…");
   try {
     const res = await fetchRemote();
-    data = res.data; sha = res.sha;
-    render(); setSync(statusLine(res.source));
+    data = res.data; version = res.version; lastSource = res.source;
+    render(); setSync(statusLine());
   } catch (e) {
     setSync("⚠ " + e.message);
     if (!quiet) toast(e.message, true);
     render();
   }
 }
-function statusLine(source){
-  let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Synced with family list";
-  if (!S.token) s += " · ⚠ Setup not finished (owner: add the family key)";
-  else if (keyRejected) s += " · ⚠ Family key expired – view only";
-  else if (source === "file") s += " · ⚠ couldn't reach GitHub";
+function statusLine(){
+  let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Family list";
+  if (!CONFIG.apiUrl) s += " · ⚠ Saving not set up yet (view only)";
+  else if (lastSource === "file") s += " · ⚠ Offline copy – tap ⟳";
   return s;
 }
 function canEdit(retry){
-  if (!S.token || !S.owner || !S.repo) {
-    openModal("⚠ Page setup not finished", `<div class="hint warn">Saving is not switched on yet. Please ask the person who made this page to finish the setup (add the family key).</div>`, null, null);
+  if (!CONFIG.apiUrl) {
+    openModal("⚠ Page setup not finished", `<div class="hint warn">Saving is not switched on yet. Please ask the person who made this page to finish the setup.</div>`, null, null);
     return false;
   }
   if (!S.name) { askName(retry); return false; }
@@ -378,33 +341,29 @@ function askName(retry){
     });
   setTimeout(() => { const i = mBody.querySelector("[name=name]"); if (i) i.focus(); }, 300);
 }
-// Every change: fetch latest → apply change → save. Retries if two people save together.
+// Every change: get latest list → apply change → save. If two people save together, retry automatically.
 async function mutate(change, message){
   if (!canEdit()) return false;
   setSync("Saving…");
-  for (let attempt = 0; attempt < 4; attempt++) {
-    try {
+  try {
+    for (let attempt = 0; attempt < 5; attempt++) {
       const latest = await fetchRemote();
-      if (keyRejected) throw new Error("the family key was refused by GitHub. The page owner needs to make a new key.");
-      if (latest.source !== "github") throw new Error("Cannot reach GitHub. Check internet / settings.");
+      if (latest.source !== "online") throw new Error("couldn't reach the online list. Check internet and try again.");
       change(latest.data);
       latest.data.updatedAt = nowISO(); latest.data.updatedBy = S.name;
-      const body = { message: `${message} (by ${S.name})`, content: b64enc(JSON.stringify(latest.data, null, 2)), branch: S.branch };
-      if (latest.sha) body.sha = latest.sha;
-      const r = await fetch(apiUrl(), { method:"PUT", headers:{ ...ghHeaders(), "Content-Type":"application/json" }, body: JSON.stringify(body) });
-      if (r.status === 409 || r.status === 422) { await new Promise(res => setTimeout(res, 600 + Math.random()*800)); continue; }
-      if (r.status === 401) { keyRejected = true; throw new Error("the family key was refused by GitHub. The page owner needs to make a new key."); }
-      if (r.status === 403) throw new Error("the key can't write to this repo. Give it 'Contents: Read and write' permission.");
-      if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.message || "HTTP " + r.status); }
+      const r = await fetch(CONFIG.apiUrl, { method:"POST", body: JSON.stringify({ version: latest.version, data: JSON.stringify(latest.data, null, 2), by: S.name, message }) });
       const j = await r.json();
-      data = latest.data; sha = j.content.sha;
-      render(); setSync(statusLine("github")); toast("Saved ✓");
+      if (j.conflict) { await new Promise(res => setTimeout(res, 500 + Math.random() * 900)); continue; }
+      if (!j.ok) throw new Error(j.error || "unknown error");
+      data = latest.data; version = j.version; lastSource = "online";
+      render(); setSync(statusLine()); toast("Saved ✓");
       return true;
-    } catch (e) { setSync("⚠ Save failed"); toast("Save failed: " + e.message, true); return false; }
+    }
+    throw new Error("many people saving at once. Please try again.");
+  } catch (e) {
+    setSync("⚠ Save failed"); toast("Save failed: " + e.message, true);
+    return false;
   }
-  toast("Someone else was saving at the same time. Please try again.", true);
-  setSync(statusLine("github"));
-  return false;
 }
 const findItem = (d, id) => d.items.find(i => i.id === id);
 const addTo = (arr, v) => { if (v && !arr.includes(v)) arr.push(v); };
@@ -642,37 +601,23 @@ function undo(id){
 }
 
 /* ---------- settings ---------- */
-function openSettings(msg){
+function openSettings(){
   openModal("⚙ Settings",
-    (msg ? `<div class="hint warn">${esc(msg)}</div>` : "")
-    + fIn("name", "Your name", S.name, "text", 'placeholder="e.g. Mummy, Chachi, Rahul"')
+    fIn("name", "Your name", S.name, "text", 'placeholder="e.g. Mummy, Chachi, Rahul"')
     + fIn("wdate", "Wedding date (shows countdown for everyone)", data.weddingDate || "", "date")
-    + `<button class="btn" type="button" id="dlBtn" style="width:100%;margin-bottom:12px">⬇ Download backup of the list</button>
-       <details style="margin-bottom:10px"><summary style="font-size:.9rem;color:var(--muted);cursor:pointer">🔧 Owner setup (only for the person who made this page)</summary><br>
-       ${fIn("token", "GitHub key for this phone (optional)", localStorage.getItem(LS("token")) || "", "password", 'placeholder="github_pat_…" autocomplete="off"')}
-       <button class="btn" type="button" id="embedBtn" style="width:100%;margin-bottom:12px">🔒 Make built-in key (for CONFIG.familyKey)</button>
-       <div class="row">${fIn("owner", "GitHub username", S.owner)}${fIn("repo", "Repository", S.repo)}</div>
-       <div class="row">${fIn("branch", "Branch", S.branch)}${fIn("path", "Data file", S.path)}</div></details>`,
+    + `<button class="btn" type="button" id="dlBtn" style="width:100%;margin-bottom:12px">⬇ Download backup of the list</button>`,
     "Save", async v => {
       if (v.name) S.set("name", v.name);
-      ["token","owner","repo","branch","path"].forEach(k => S.set(k, v[k]));
       if ((v.wdate || "") !== (data.weddingDate || "")) {
         closeModal();
-        await mutate(d => { d.weddingDate = v.wdate; }, "Set wedding date " + v.wdate);
-      } else { toast("Settings saved"); load(); }
+        await mutate(d => { d.weddingDate = v.wdate; }, "Set wedding date");
+      } else { toast("Settings saved"); }
       return true;
     });
-  $("#embedBtn").onclick = async () => {
-    const tok = mBody.querySelector("[name=token]").value.trim();
-    if (!tok) { toast("Paste your GitHub key in the box above first", true); return; }
-    const code = scramble(tok);
-    try { await navigator.clipboard.writeText(code); toast("Copied! Paste it into familyKey in index.html"); }
-    catch { prompt("Copy this and paste into familyKey in index.html:", code); }
-  };
   $("#dlBtn").onclick = () => {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "text/plain" }));
-    a.download = "data-backup-" + today() + ".txt"; a.click();
+    a.download = "shaadi-list-backup-" + today() + ".txt"; a.click();
   };
 }
 
