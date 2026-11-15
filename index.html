@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7a0f2e">
+<title>Shruti ki Shaadi</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#7a0f2e;--maroon-2:#a3173f;--maroon-d:#4a0719;--gold:#e0a526;--gold-l:#f7d774;
+  --marigold:#f39c12;--cream:#fff8ee;--card:rgba(255,255,255,.92);--text:#2b1b17;--muted:#7d6a62;
+  --green:#2e7d32;--green-l:#e3f3e3;--orange:#e67e22;--line:#f0e2d2;--red:#c0392b;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);
+  background:radial-gradient(circle at 20% 0%,#fff3dc 0,transparent 50%),radial-gradient(circle at 100% 60%,#ffe6ea 0,transparent 45%),var(--cream);
+  min-height:100vh;padding-bottom:calc(100px + var(--safe-b));overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+
+/* ---------- animated background ---------- */
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.mandala{position:fixed;width:140vmax;height:140vmax;left:50%;top:50%;margin:-70vmax 0 0 -70vmax;opacity:.06;pointer-events:none;z-index:0;animation:spin 180s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.layer{position:relative;z-index:1}
+
+/* ---------- hero ---------- */
+header{position:relative;color:#fff;text-align:center;padding:46px 16px 18px;overflow:hidden;
+  background:linear-gradient(160deg,var(--maroon-2) 0%,var(--maroon) 45%,var(--maroon-d) 100%);
+  border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 8px 24px rgba(122,15,46,.35)}
+header::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23f7d774' stroke-opacity='.12'%3E%3Ccircle cx='30' cy='30' r='12'/%3E%3Cpath d='M30 6v48M6 30h48M13 13l34 34M47 13 13 47'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.toran{position:absolute;top:0;left:0;right:0;height:46px;display:flex;justify-content:space-between;padding:0 4px;z-index:2;pointer-events:none}
+.toran::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:repeating-linear-gradient(90deg,#2e7d32 0 10px,#43a047 10px 20px)}
+.strand{display:flex;flex-direction:column;align-items:center;transform-origin:top center;animation:sway 3.2s ease-in-out infinite}
+.strand::before{content:"";width:1px;height:4px;background:#2e7d32}
+.strand i{display:block;width:11px;height:11px;border-radius:50%;margin-top:-1px;
+  background:radial-gradient(circle at 40% 35%,#ffe08a 0,#f7b52b 35%,#e8780c 75%,#c75a00 100%);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.strand i:nth-child(even){background:radial-gradient(circle at 40% 35%,#fff2b3 0,#ffd23f 45%,#e8a90c 100%)}
+.strand b{display:block;width:9px;height:9px;margin-top:1px;background:var(--gold);clip-path:polygon(50% 0,100% 70%,70% 100%,30% 100%,0 70%)}
+@keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.hero-top{position:relative;z-index:3}
+.subtitle{margin-top:6px;font-family:"Tiro Devanagari Hindi",serif;color:var(--gold-l);font-size:1rem;letter-spacing:.08em;opacity:.95}
+.hero-row{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0}
+h1{font-family:"Great Vibes",cursive;font-weight:400;font-size:clamp(2.6rem,12vw,4rem);margin:0;line-height:1.1;
+  background:linear-gradient(90deg,#f7d774,#fff6d0,#e0a526,#fff6d0,#f7d774);background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+@keyframes shine{to{background-position:200% center}}
+.diya{position:relative;width:30px;height:34px;flex-shrink:0}
+.diya .bowl{position:absolute;bottom:0;left:0;width:30px;height:13px;background:linear-gradient(#f0a33a,#b5541a);border-radius:0 0 16px 16px}
+.diya .flame{position:absolute;bottom:12px;left:10px;width:10px;height:18px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:radial-gradient(circle at 50% 75%,#fff 0,#ffe066 35%,#ff9a1f 70%,rgba(255,80,0,0) 100%);
+  box-shadow:0 0 14px 5px rgba(255,190,60,.55);transform-origin:50% 100%;animation:flick 1.3s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.08,.94) rotate(2deg)}100%{transform:scale(.95,1.06) rotate(-1deg)}}
+.tagline{font-size:.8rem;opacity:.9;margin-top:2px}
+.countdown{display:inline-block;margin-top:8px;background:rgba(255,255,255,.14);border:1px solid rgba(247,215,116,.45);padding:5px 14px;border-radius:20px;font-size:.82rem}
+.hero-btns{position:absolute;top:50px;right:10px;z-index:4;display:flex;gap:6px}
+.icon-btn{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.9rem;width:32px;height:32px;border-radius:50%;backdrop-filter:blur(4px)}
+.icon-btn:active{transform:scale(.92)}
+#syncStatus{font-size:.7rem;opacity:.8;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px auto 0;max-width:560px;position:relative;z-index:3}
+.stat{background:rgba(255,255,255,.12);border:1px solid rgba(247,215,116,.25);border-radius:14px;padding:9px 4px;backdrop-filter:blur(3px)}
+.stat b{display:block;font-size:1.05rem;font-weight:600}
+.stat span{font-size:.66rem;opacity:.88}
+.stat.wide{grid-column:span 3;display:flex;justify-content:space-around;align-items:center}
+.stat.wide div b{font-size:1rem}
+.progress{max-width:560px;margin:12px auto 0;position:relative;z-index:3}
+.bar{height:8px;border-radius:8px;background:rgba(255,255,255,.18);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:8px;transition:width .8s ease}
+.progress small{display:block;font-size:.7rem;margin-top:4px;opacity:.85}
+
+/* ---------- tabs & filters ---------- */
+.sticky{position:sticky;top:0;z-index:6;background:rgba(255,248,238,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:8px;padding:10px 12px 6px;overflow-x:auto;scrollbar-width:none;max-width:900px;margin:0 auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:1px solid var(--line);background:#fff;padding:8px 16px;border-radius:22px;white-space:nowrap;font-size:.88rem;color:var(--text);transition:all .2s}
+.tab.active{background:linear-gradient(135deg,var(--maroon-2),var(--maroon));color:#fff;border-color:var(--maroon);box-shadow:0 3px 10px rgba(122,15,46,.3)}
+.tab small{opacity:.75}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:6px 12px 10px;max-width:900px;margin:0 auto}
+.filters input{grid-column:1/-1}
+.filters input,.filters select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;font-size:.88rem;background:#fff;color:var(--text);appearance:none;-webkit-appearance:none}
+.filters select{background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a0f2e'/%3E%3C/svg%3E") no-repeat right 12px center}
+@media(min-width:700px){.filters{grid-template-columns:2fr 1fr 1fr}.filters input{grid-column:auto}}
+
+/* ---------- list ---------- */
+main{padding:4px 12px;max-width:900px;margin:0 auto}
+.group h2{font-size:1rem;color:var(--maroon);margin:18px 4px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.group h2 .gname{display:flex;align-items:center;gap:8px}
+.group h2 .gicon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#fff1d6,#ffe1e8);font-size:1.05rem;box-shadow:inset 0 0 0 1px var(--line)}
+.group h2 small{color:var(--muted);font-weight:500;font-size:.72rem;background:#fff;border:1px solid var(--line);padding:3px 9px;border-radius:12px;white-space:nowrap}
+.card{background:var(--card);border-radius:16px;padding:13px 13px 11px;margin-bottom:10px;position:relative;
+  box-shadow:0 2px 10px rgba(122,15,46,.07);border:1px solid var(--line);overflow:hidden;animation:rise .35s ease both}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--marigold),var(--orange))}
+.card.done::before{background:linear-gradient(#4caf50,var(--green))}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card-h{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.card-h b{font-size:.98rem;font-weight:600}
+.card.done .card-h b{color:#556b55}
+.qty{color:var(--muted);font-size:.8rem;font-weight:500}
+.meta{font-size:.72rem;color:var(--muted);margin-top:2px}
+.badge{font-size:.66rem;padding:4px 10px;border-radius:12px;white-space:nowrap;font-weight:600}
+.badge.pending{background:#fff0d9;color:#a85a00}
+.badge.done{background:var(--green-l);color:var(--green)}
+.notes{font-size:.8rem;color:#5a4a43;margin:6px 0 0;white-space:pre-wrap;background:#fffaf2;border-radius:8px;padding:5px 8px}
+.final{background:var(--green-l);border:1px solid #cfe6cf;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:.85rem}
+.quotes{margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}
+.quotes-h{font-size:.66rem;color:var(--muted);margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.q{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #f6eee6}
+.q:last-child{border-bottom:0}
+.q-info{font-size:.82rem;min-width:0;flex:1}
+.q-info .shop{font-weight:600;word-break:break-word}
+.q-info .sub{font-size:.7rem;color:var(--muted)}
+.q-right{display:flex;align-items:center;gap:0;flex-shrink:0}
+.price{font-weight:700;color:var(--maroon);font-size:.92rem;margin-right:2px}
+.low{font-size:.6rem;background:linear-gradient(135deg,var(--gold),#c98a10);color:#fff;padding:2px 7px;border-radius:8px;margin-left:4px;vertical-align:middle}
+.chosen{font-size:.6rem;background:var(--green);color:#fff;padding:2px 7px;border-radius:8px;margin-left:4px;vertical-align:middle}
+.mini{border:0;background:none;font-size:.9rem;padding:6px 5px;border-radius:8px;min-width:30px;min-height:32px}
+.mini:active{background:#f4ece4}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.btn{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;font-size:.8rem;color:var(--text);font-weight:500;min-height:36px}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--maroon-2),var(--maroon));color:#fff;border-color:var(--maroon)}
+.btn.green{background:linear-gradient(135deg,#43a047,var(--green));color:#fff;border-color:var(--green)}
+.btn.danger{color:var(--red);margin-left:auto}
+.empty{text-align:center;color:var(--muted);padding:40px 10px;font-size:.9rem}
+.empty .big{font-size:2.6rem;display:block;margin-bottom:6px}
+.foot{text-align:center;font-size:.7rem;color:var(--muted);margin:18px 0 6px}
+.foot .hearts{font-size:.9rem;letter-spacing:4px;display:block;margin-bottom:4px}
+
+.fab{position:fixed;right:16px;bottom:calc(18px + var(--safe-b));z-index:10;color:#fff;border:0;border-radius:30px;padding:14px 22px;font-size:.98rem;font-weight:600;
+  background:linear-gradient(135deg,var(--maroon-2),var(--maroon));box-shadow:0 6px 18px rgba(122,15,46,.45),inset 0 0 0 2px rgba(247,215,116,.5);animation:pulse 2.6s ease-in-out infinite}
+.fab:active{transform:scale(.95)}
+@keyframes pulse{0%,100%{box-shadow:0 6px 18px rgba(122,15,46,.45),0 0 0 0 rgba(224,165,38,.5),inset 0 0 0 2px rgba(247,215,116,.5)}50%{box-shadow:0 6px 18px rgba(122,15,46,.45),0 0 0 10px rgba(224,165,38,0),inset 0 0 0 2px rgba(247,215,116,.5)}}
+
+/* ---------- modal (bottom sheet on phone) ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(40,5,15,.5);display:none;align-items:flex-end;justify-content:center;z-index:20;backdrop-filter:blur(2px)}
+.modal-bg.open{display:flex;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}}
+.modal{background:#fffdf9;width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:8px 16px calc(16px + var(--safe-b));animation:up .28s cubic-bezier(.2,.9,.3,1.1)}
+.modal::before{content:"";display:block;width:42px;height:5px;border-radius:3px;background:#e4d6c8;margin:2px auto 10px}
+@keyframes up{from{transform:translateY(60px);opacity:.4}}
+@media(min-width:600px){.modal-bg{align-items:center}.modal{border-radius:20px;padding-bottom:16px}.modal::before{display:none}}
+.modal h3{margin:4px 0 12px;color:var(--maroon);font-size:1.08rem}
+.modal label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:10px;font-weight:500}
+.modal input,.modal select,.modal textarea{display:block;width:100%;margin-top:4px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;font-size:16px;color:var(--text);background:#fff}
+.modal input:focus,.modal select:focus,.modal textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(224,165,38,.2)}
+.modal .row{display:flex;gap:8px}.modal .row>label{flex:1;min-width:0}
+.hint{font-size:.76rem;color:var(--muted);background:#fbf3e8;border-radius:10px;padding:8px 10px;margin-bottom:10px;line-height:1.45}
+.warn{background:#fff3e0;color:#8a4b00}
+.m-actions{display:flex;gap:8px;margin-top:8px;position:sticky;bottom:0;background:#fffdf9;padding-top:6px}
+.m-actions button{flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:500}
+.m-actions .primary{background:linear-gradient(135deg,var(--maroon-2),var(--maroon));color:#fff;border-color:var(--maroon)}
+.hidden{display:none!important}
+#toast{position:fixed;left:50%;bottom:calc(88px + var(--safe-b));transform:translateX(-50%) translateY(10px);background:#2b1b17;color:#fff;padding:10px 18px;border-radius:12px;font-size:.85rem;opacity:0;transition:all .25s;pointer-events:none;z-index:30;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}#toast.err{background:var(--red)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}#petals{display:none}}
+</style>
+</head>
+<body>
+<canvas id="petals"></canvas>
+<svg class="mandala" viewBox="-100 -100 200 200" aria-hidden="true">
+  <g fill="none" stroke="#7a0f2e" stroke-width=".6">
+    <circle r="96"/><circle r="80"/><circle r="56"/><circle r="30"/><circle r="12"/>
+    <g id="pet"><path d="M0-30C10-45 10-65 0-80C-10-65-10-45 0-30Z"/><path d="M0-56C6-66 6-74 0-80"/><circle cy="-88" r="5"/></g>
+    <use href="#pet" transform="rotate(30)"/><use href="#pet" transform="rotate(60)"/><use href="#pet" transform="rotate(90)"/>
+    <use href="#pet" transform="rotate(120)"/><use href="#pet" transform="rotate(150)"/><use href="#pet" transform="rotate(180)"/>
+    <use href="#pet" transform="rotate(210)"/><use href="#pet" transform="rotate(240)"/><use href="#pet" transform="rotate(270)"/>
+    <use href="#pet" transform="rotate(300)"/><use href="#pet" transform="rotate(330)"/>
+  </g>
+</svg>
+
+<div class="layer">
+<header>
+  <div class="toran" id="toran"></div>
+  <div class="hero-btns">
+    <button class="icon-btn" id="refreshBtn" title="Refresh" aria-label="Refresh">⟳</button>
+    <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">⚙</button>
+  </div>
+  <div class="hero-top">
+    <div class="subtitle">॥ शुभ विवाह ॥</div>
+    <div class="hero-row">
+      <div class="diya"><div class="flame"></div><div class="bowl"></div></div>
+      <h1 id="title">Shruti ki Shaadi</h1>
+      <div class="diya"><div class="flame" style="animation-delay:.4s"></div><div class="bowl"></div></div>
+    </div>
+    <div class="tagline">Family shopping list · Lagan &amp; Shadi</div>
+    <div class="countdown hidden" id="countdown"></div>
+    <div class="stats" id="stats"></div>
+    <div class="progress"><div class="bar"><i id="barFill"></i></div><small id="barText"></small></div>
+    <div id="syncStatus">Loading…</div>
+  </div>
+</header>
+
+<div class="sticky">
+  <nav class="tabs" id="eventTabs"></nav>
+  <div class="filters">
+    <input id="search" type="search" placeholder="🔍  Search item, shop, market…">
+    <select id="catFilter"></select>
+    <select id="statusFilter">
+      <option value="all">All status</option>
+      <option value="pending">⏳ Pending</option>
+      <option value="done">✅ Done</option>
+    </select>
+  </div>
+</div>
+
+<main id="list"></main>
+</div>
+
+<button class="fab" id="addBtn">＋ Add Item</button>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="mTitle"></h3>
+    <div id="mBody"></div>
+    <div class="m-actions" id="mActions"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   CONFIG – fill owner & repo (or leave blank: auto-detected
+   when the page is opened from https://OWNER.github.io/REPO/)
+   ============================================================ */
+const CONFIG = {
+  owner:  "",            // your GitHub username
+  repo:   "",            // repository name, e.g. "shruti-ki-shaadi"
+  branch: "main",
+  path:   "data.txt",
+  title:  "Shruti ki Shaadi"
+};
+const CAT_ICON = {"Puja Samaan":"🪔","Bartan":"🍲","Electronics":"📺","Furniture":"🛋️","Bedding":"🛏️","Kapde":"👗","Jewellery":"💍",
+  "Shringar":"💄","Decoration":"🎊","Mithai & Catering":"🍬","Gifts":"🎁","Other":"📦"};
+const EVENT_ICON = {"Lagan":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
+const catIcon = c => CAT_ICON[c] || "🛍️";
+const evIcon = e => EVENT_ICON[e] || "✨";
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const LS = k => "shaadi_" + k;
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = v => { const n = parseFloat(String(v ?? "").replace(/[^0-9.]/g, "")); return isNaN(n) ? null : n; };
+const money = n => (n === null || n === undefined || n === "") ? "—" : "₹" + Number(n).toLocaleString("en-IN");
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const nowISO = () => new Date().toISOString();
+const today = () => new Date().toISOString().slice(0, 10);
+const fmtDate = d => { if (!d) return ""; const x = new Date(d); return isNaN(x) ? d : x.toLocaleDateString("en-IN", {day:"numeric", month:"short"}); };
+function ago(iso){ if(!iso) return ""; const s=(Date.now()-new Date(iso))/1000; if(s<60) return "just now"; if(s<3600) return Math.floor(s/60)+" min ago"; if(s<86400) return Math.floor(s/3600)+" hr ago"; return Math.floor(s/86400)+" days ago"; }
+function b64enc(str){ const bytes=new TextEncoder().encode(str); let bin=""; for(let i=0;i<bytes.length;i+=8192) bin+=String.fromCharCode.apply(null, bytes.subarray(i,i+8192)); return btoa(bin); }
+function b64dec(b64){ const bin=atob(b64.replace(/\s/g,"")); return new TextDecoder().decode(Uint8Array.from(bin, c=>c.charCodeAt(0))); }
+let toastTimer;
+function toast(msg, err){ const t=$("#toast"); t.textContent=msg; t.className="show"+(err?" err":""); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.className="", err?4000:2200); }
+function setSync(msg){ $("#syncStatus").textContent = msg; }
+
+/* ---------- settings (stored per phone) ---------- */
+function detectRepo(){
+  const h = location.hostname;
+  if (!h.endsWith(".github.io")) return {};
+  const owner = h.split(".")[0];
+  const seg = location.pathname.split("/").filter(Boolean)[0];
+  return { owner, repo: (seg && !seg.includes(".")) ? seg : h };
+}
+const auto = detectRepo();
+const S = {
+  get name(){ return localStorage.getItem(LS("name")) || ""; },
+  get token(){ return localStorage.getItem(LS("token")) || ""; },
+  get owner(){ return localStorage.getItem(LS("owner")) || CONFIG.owner || auto.owner || ""; },
+  get repo(){ return localStorage.getItem(LS("repo")) || CONFIG.repo || auto.repo || ""; },
+  get branch(){ return localStorage.getItem(LS("branch")) || CONFIG.branch; },
+  get path(){ return localStorage.getItem(LS("path")) || CONFIG.path; },
+  set(k, v){ v ? localStorage.setItem(LS(k), v) : localStorage.removeItem(LS(k)); }
+};
+// Share link: ...#t=TOKEN saves the key on this phone, then hides it from the address bar
+(function(){
+  const hp = new URLSearchParams(location.hash.slice(1));
+  if (hp.get("t")) { S.set("token", hp.get("t")); history.replaceState(null, "", location.pathname + location.search); }
+})();
+
+/* ---------- data ---------- */
+const DEFAULT_EVENTS = ["Lagan", "Shadi"];
+const DEFAULT_CATS = Object.keys(CAT_ICON);
+const emptyData = () => ({ title: CONFIG.title, weddingDate:"", events:[...DEFAULT_EVENTS], categories:[...DEFAULT_CATS], items:[], updatedAt:null, updatedBy:null });
+function parseData(text){
+  if (!text || !text.trim()) return emptyData();
+  const d = JSON.parse(text);
+  d.events = Array.isArray(d.events) && d.events.length ? d.events : [...DEFAULT_EVENTS];
+  d.categories = Array.isArray(d.categories) && d.categories.length ? d.categories : [...DEFAULT_CATS];
+  d.items = Array.isArray(d.items) ? d.items : [];
+  d.items.forEach(i => { i.quotes = Array.isArray(i.quotes) ? i.quotes : []; i.purchase = i.purchase || null; });
+  return d;
+}
+let data = emptyData(), sha = null, firstRender = true;
+const F = { event:"All", cat:"All", status:"all", q:"" };
+
+/* ---------- GitHub storage ---------- */
+const apiUrl = () => `https://api.github.com/repos/${S.owner}/${S.repo}/contents/${S.path}`;
+function ghHeaders(){ const h = { Accept:"application/vnd.github+json" }; if (S.token) h.Authorization = "Bearer " + S.token; return h; }
+
+async function fetchRemote(){
+  if (S.owner && S.repo) {
+    try {
+      const r = await fetch(apiUrl() + "?ref=" + encodeURIComponent(S.branch), { headers: ghHeaders(), cache:"no-store" });
+      if (r.ok) { const j = await r.json(); return { data: parseData(b64dec(j.content)), sha: j.sha, source:"github" }; }
+      if (r.status === 404 && S.token) return { data: emptyData(), sha: null, source:"github" };
+      if (r.status === 401) throw new Error("Access key is wrong or expired (check ⚙ Settings)");
+    } catch (e) { if (/Access key/.test(e.message)) throw e; }
+  }
+  const r = await fetch(S.path + "?t=" + Date.now(), { cache:"no-store" });
+  if (!r.ok) throw new Error("Could not load " + S.path);
+  return { data: parseData(await r.text()), sha: null, source:"file" };
+}
+
+async function load(quiet){
+  if (!quiet) setSync("Loading…");
+  try {
+    const res = await fetchRemote();
+    data = res.data; sha = res.sha;
+    render(); setSync(statusLine(res.source));
+  } catch (e) {
+    setSync("⚠ " + e.message);
+    if (!quiet) toast(e.message, true);
+    render();
+  }
+}
+function statusLine(source){
+  let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Synced with family list";
+  if (!S.token) s += " · 👀 View only – tap ⚙ to edit";
+  else if (source === "file") s += " · ⚠ couldn't reach GitHub";
+  return s;
+}
+function canEdit(){
+  if (!S.token || !S.owner || !S.repo) { openSettings("To add or change items, enter your name and the family access key once on this phone."); return false; }
+  if (!S.name) { openSettings("Please enter your name first, so everyone knows who added what."); return false; }
+  return true;
+}
+// Every change: fetch latest → apply change → save. Retries if two people save together.
+async function mutate(change, message){
+  if (!canEdit()) return false;
+  setSync("Saving…");
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const latest = await fetchRemote();
+      if (latest.source !== "github") throw new Error("Cannot reach GitHub. Check internet / settings.");
+      change(latest.data);
+      latest.data.updatedAt = nowISO(); latest.data.updatedBy = S.name;
+      const body = { message: `${message} (by ${S.name})`, content: b64enc(JSON.stringify(latest.data, null, 2)), branch: S.branch };
+      if (latest.sha) body.sha = latest.sha;
+      const r = await fetch(apiUrl(), { method:"PUT", headers:{ ...ghHeaders(), "Content-Type":"application/json" }, body: JSON.stringify(body) });
+      if (r.status === 409 || r.status === 422) { await new Promise(res => setTimeout(res, 600 + Math.random()*800)); continue; }
+      if (r.status === 401 || r.status === 403) throw new Error("Access key doesn't have permission to save (check ⚙ Settings)");
+      if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.message || "HTTP " + r.status); }
+      const j = await r.json();
+      data = latest.data; sha = j.content.sha;
+      render(); setSync(statusLine("github")); toast("Saved ✓");
+      return true;
+    } catch (e) { setSync("⚠ Save failed"); toast("Save failed: " + e.message, true); return false; }
+  }
+  toast("Someone else was saving at the same time. Please try again.", true);
+  setSync(statusLine("github"));
+  return false;
+}
+const findItem = (d, id) => d.items.find(i => i.id === id);
+const addTo = (arr, v) => { if (v && !arr.includes(v)) arr.push(v); };
+
+/* ---------- rendering ---------- */
+function lowestQuote(item){ return item.quotes.filter(q => num(q.price) !== null).sort((a,b) => num(a.price) - num(b.price))[0]; }
+const isDone = i => !!i.purchase;
+
+function renderCountdown(){
+  const el = $("#countdown");
+  if (!data.weddingDate) { el.classList.add("hidden"); return; }
+  const t = new Date(data.weddingDate + "T00:00:00"), n = new Date(); n.setHours(0,0,0,0);
+  const days = Math.round((t - n) / 86400000);
+  el.textContent = days > 1 ? `💐 ${days} days to go · ${t.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}`
+    : days === 1 ? "💐 Shaadi is tomorrow!" : days === 0 ? "🎉 Aaj Shaadi hai! Congratulations 🎉" : "💞 Happily married!";
+  el.classList.remove("hidden");
+}
+
+function render(){
+  const title = data.title || CONFIG.title;
+  $("#title").textContent = title; document.title = title;
+  renderCountdown();
+  if (F.event !== "All" && !data.events.includes(F.event)) F.event = "All";
+  if (F.cat !== "All" && !data.categories.includes(F.cat)) F.cat = "All";
+
+  const evItems = e => e === "All" ? data.items : data.items.filter(i => i.event === e);
+  $("#eventTabs").innerHTML = ["All", ...data.events].map(e => {
+    const list = evItems(e), p = list.filter(i => !isDone(i)).length;
+    return `<button class="tab ${F.event===e?"active":""}" data-event="${esc(e)}">${e==="All"?"📋 All":evIcon(e)+" "+esc(e)} <small>${p}/${list.length}</small></button>`;
+  }).join("");
+
+  $("#catFilter").innerHTML = `<option value="All">All categories</option>` +
+    data.categories.map(c => `<option ${F.cat===c?"selected":""} value="${esc(c)}">${catIcon(c)} ${esc(c)}</option>`).join("");
+
+  const scope = evItems(F.event);
+  const done = scope.filter(isDone), pending = scope.filter(i => !isDone(i));
+  const spent = done.reduce((s,i) => s + (num(i.purchase.price) || 0), 0);
+  const est = pending.reduce((s,i) => { const l = lowestQuote(i); return s + (l ? num(l.price) : 0); }, 0);
+  $("#stats").innerHTML = `
+    <div class="stat"><b>${scope.length}</b><span>Total items</span></div>
+    <div class="stat"><b>${pending.length}</b><span>⏳ Pending</span></div>
+    <div class="stat"><b>${done.length}</b><span>✅ Done</span></div>
+    <div class="stat wide"><div><b>${money(spent)}</b><span>Spent so far</span></div><div><b>${money(est)}</b><span>Est. pending*</span></div></div>`;
+  const pct = scope.length ? Math.round(done.length / scope.length * 100) : 0;
+  $("#barFill").style.width = pct + "%";
+  $("#barText").textContent = `${pct}% shopping complete${F.event !== "All" ? " for " + F.event : ""}`;
+
+  const q = F.q.toLowerCase();
+  const items = scope.filter(i =>
+    (F.cat === "All" || i.category === F.cat) &&
+    (F.status === "all" || (F.status === "done") === isDone(i)) &&
+    (!q || [i.name, i.notes, i.category, i.event, ...i.quotes.map(x => x.shop + " " + x.location)].join(" ").toLowerCase().includes(q))
+  );
+  if (!items.length) {
+    $("#list").innerHTML = `<div class="empty"><span class="big">${data.items.length ? "🔍" : "🛍️"}</span>${data.items.length ? "No items match these filters." : "No items yet.<br>Tap <b>＋ Add Item</b> to start the list 🎉"}</div>`;
+    return;
+  }
+  const cats = [...data.categories, ...new Set(items.map(i => i.category).filter(c => !data.categories.includes(c)))];
+  let n = 0;
+  $("#list").innerHTML = cats.map(c => {
+    const group = items.filter(i => i.category === c)
+      .sort((a,b) => (isDone(a) - isDone(b)) || String(a.createdAt).localeCompare(String(b.createdAt)));
+    if (!group.length) return "";
+    const p = group.filter(i => !isDone(i)).length;
+    return `<section class="group"><h2><span class="gname"><span class="gicon">${catIcon(c)}</span>${esc(c)}</span><small>${p} pending · ${group.length - p} done</small></h2>${group.map(i => cardHTML(i, firstRender ? Math.min(n++, 12) : 0)).join("")}</section>`;
+  }).join("") + `<div class="foot"><span class="hearts">🌸 💛 🌸</span>* Est. pending = total of the lowest price noted for each pending item<br>Made with love for Shruti</div>`;
+  firstRender = false;
+}
+
+function cardHTML(i, delay){
+  const done = isDone(i), low = lowestQuote(i);
+  const quotes = [...i.quotes].sort((a,b) => (num(a.price) ?? 1e15) - (num(b.price) ?? 1e15));
+  const qHTML = quotes.length ? `<div class="quotes"><div class="quotes-h">Prices collected · ${quotes.length}</div>${quotes.map(x => `
+      <div class="q">
+        <div class="q-info">
+          <div class="shop">${esc(x.shop) || "Shop"}${x.location ? " · " + esc(x.location) : ""}${quotes.length > 1 && low && x.id === low.id ? '<span class="low">Lowest</span>' : ""}${done && i.purchase.quoteId === x.id ? '<span class="chosen">Final</span>' : ""}</div>
+          <div class="sub">${[x.contact ? "📞 " + esc(x.contact) : "", x.notes ? esc(x.notes) : "", x.addedBy ? "by " + esc(x.addedBy) : "", fmtDate(x.date)].filter(Boolean).join(" · ")}</div>
+        </div>
+        <div class="q-right">
+          <span class="price">${money(num(x.price))}</span>
+          ${!done ? `<button class="mini" title="Buy at this price" data-act="buyq" data-id="${i.id}" data-qid="${x.id}">✅</button>` : ""}
+          <button class="mini" title="Edit price" data-act="editq" data-id="${i.id}" data-qid="${x.id}">✏️</button>
+          <button class="mini" title="Delete price" data-act="delq" data-id="${i.id}" data-qid="${x.id}">🗑</button>
+        </div>
+      </div>`).join("")}</div>` : (done ? "" : `<div class="meta" style="margin-top:8px">No prices yet — add rates from different shops to compare.</div>`);
+
+  const fin = done ? `<div class="final">✅ <b>Bought for ${money(num(i.purchase.price))}</b>${i.purchase.shop ? " at " + esc(i.purchase.shop) : ""}${i.purchase.location ? ", " + esc(i.purchase.location) : ""}
+      <div class="meta">${[i.purchase.by ? "by " + esc(i.purchase.by) : "", fmtDate(i.purchase.date), esc(i.purchase.notes)].filter(Boolean).join(" · ")}</div></div>` : "";
+
+  return `<div class="card ${done ? "done" : ""}" style="animation-delay:${delay * 40}ms">
+    <div class="card-h">
+      <div><b>${esc(i.name)}</b> ${i.qty ? `<span class="qty">× ${esc(i.qty)}</span>` : ""}
+        <div class="meta">${evIcon(i.event)} ${esc(i.event)}${i.addedBy ? " · added by " + esc(i.addedBy) : ""}</div></div>
+      <span class="badge ${done ? "done" : "pending"}">${done ? "✓ Done" : "Pending"}</span>
+    </div>
+    ${i.notes ? `<p class="notes">${esc(i.notes)}</p>` : ""}
+    ${fin}${qHTML}
+    <div class="actions">
+      ${done
+        ? `<button class="btn" data-act="undo" data-id="${i.id}">↩ Mark pending</button>`
+        : `<button class="btn primary" data-act="addq" data-id="${i.id}">＋ Price</button>
+           <button class="btn green" data-act="buy" data-id="${i.id}">✅ Purchased</button>`}
+      <button class="btn" data-act="edit" data-id="${i.id}">✏️</button>
+      <button class="btn danger" data-act="del" data-id="${i.id}" aria-label="Delete">🗑</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- modal + form helpers ---------- */
+const modal = $("#modal"), mBody = $("#mBody"), mActions = $("#mActions");
+function openModal(title, body, saveLabel, onSave){
+  $("#mTitle").textContent = title;
+  mBody.innerHTML = body;
+  mActions.innerHTML = `<button data-close>Cancel</button>` + (onSave ? `<button class="primary" id="mSave">${esc(saveLabel)}</button>` : "");
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  if (onSave) $("#mSave").onclick = async () => {
+    const btn = $("#mSave"); btn.disabled = true; btn.textContent = "Saving…";
+    const ok = await onSave(formVals());
+    if (ok !== false) closeModal(); else if (btn.isConnected) { btn.disabled = false; btn.textContent = saveLabel; }
+  };
+}
+function closeModal(){ modal.classList.remove("open"); document.body.style.overflow = ""; }
+function formVals(){
+  const o = {};
+  mBody.querySelectorAll("[name]").forEach(el => o[el.name] = el.value.trim());
+  Object.keys(o).forEach(k => { if (o[k] === "__new") o[k] = o[k + "__new"] || ""; });
+  return o;
+}
+const fIn = (name, label, value = "", type = "text", extra = "") => `<label>${label}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
+const fTa = (name, label, value = "") => `<label>${label}<textarea name="${name}" rows="2">${esc(value)}</textarea></label>`;
+const fSel = (name, label, options, value, iconFn) => `<label>${label}<select name="${name}" data-newsel>${options.map(o => `<option value="${esc(o)}" ${o===value?"selected":""}>${iconFn ? iconFn(o) + " " : ""}${esc(o)}</option>`).join("")}<option value="__new">➕ Add new…</option></select><input name="${name}__new" class="hidden" placeholder="Type new name"></label>`;
+modal.addEventListener("change", e => {
+  if (e.target.matches("[data-newsel]")) {
+    const inp = e.target.nextElementSibling;
+    inp.classList.toggle("hidden", e.target.value !== "__new");
+    if (e.target.value === "__new") inp.focus();
+  }
+  if (e.target.name === "pickQuote") {
+    const it = findItem(data, e.target.dataset.item), q = it && it.quotes.find(x => x.id === e.target.value);
+    if (q) { mBody.querySelector("[name=price]").value = q.price || ""; mBody.querySelector("[name=shop]").value = q.shop || ""; mBody.querySelector("[name=location]").value = q.location || ""; }
+  }
+});
+modal.addEventListener("click", e => { if (e.target === modal || e.target.matches("[data-close]")) closeModal(); });
+
+/* ---------- forms ---------- */
+function itemForm(item){
+  const ev = item ? item.event : (F.event !== "All" ? F.event : data.events[0]);
+  const cat = item ? item.category : (F.cat !== "All" ? F.cat : data.categories[0]);
+  return `<div class="row">${fSel("event", "Function", data.events, ev, evIcon)}${fSel("category", "Category", data.categories, cat, catIcon)}</div>`
+    + fIn("name", "Item name *", item ? item.name : "", "text", 'placeholder="e.g. Pressure cooker 5L"')
+    + fIn("qty", "Quantity", item ? item.qty : "1")
+    + fTa("notes", "Notes (brand, size, colour…)", item ? item.notes : "");
+}
+function addItem(){
+  if (!canEdit()) return;
+  openModal("🛍️ Add Item", itemForm(null), "Add Item", v => {
+    if (!v.name) { toast("Please enter the item name", true); return false; }
+    if (!v.event || !v.category) { toast("Please choose function and category", true); return false; }
+    return mutate(d => {
+      addTo(d.events, v.event); addTo(d.categories, v.category);
+      d.items.push({ id: uid(), event: v.event, category: v.category, name: v.name, qty: v.qty, notes: v.notes,
+                     addedBy: S.name, createdAt: nowISO(), quotes: [], purchase: null });
+    }, "Add item: " + v.name);
+  });
+}
+function editItem(id){
+  const it = findItem(data, id); if (!it || !canEdit()) return;
+  openModal("✏️ Edit Item", itemForm(it), "Save", v => {
+    if (!v.name) { toast("Please enter the item name", true); return false; }
+    return mutate(d => {
+      const x = findItem(d, id); if (!x) throw new Error("Item was deleted by someone else");
+      addTo(d.events, v.event); addTo(d.categories, v.category);
+      Object.assign(x, { event: v.event, category: v.category, name: v.name, qty: v.qty, notes: v.notes });
+    }, "Edit item: " + v.name);
+  });
+}
+function delItem(id){
+  const it = findItem(data, id); if (!it || !canEdit()) return;
+  if (!confirm(`Delete "${it.name}" and all its prices?`)) return;
+  mutate(d => { d.items = d.items.filter(x => x.id !== id); }, "Delete item: " + it.name);
+}
+function quoteForm(q){
+  return fIn("shop", "Shop / seller *", q ? q.shop : "", "text", 'placeholder="e.g. Sharma Bartan Bhandar"')
+    + `<div class="row">${fIn("location", "Location / market", q ? q.location : "", "text", 'placeholder="e.g. Main Bazaar"')}${fIn("price", "Price ₹ (total) *", q ? q.price : "", "number", 'inputmode="decimal"')}</div>`
+    + fIn("contact", "Contact / phone", q ? q.contact : "", "tel") + fTa("notes", "Notes (discount, delivery, warranty…)", q ? q.notes : "");
+}
+function addQuote(id){
+  const it = findItem(data, id); if (!it || !canEdit()) return;
+  openModal("💰 Add price – " + it.name, quoteForm(null), "Add price", v => {
+    if (!v.shop || num(v.price) === null) { toast("Shop and price are required", true); return false; }
+    return mutate(d => {
+      const x = findItem(d, id); if (!x) throw new Error("Item was deleted by someone else");
+      x.quotes.push({ id: uid(), shop: v.shop, location: v.location, price: num(v.price), contact: v.contact, notes: v.notes, addedBy: S.name, date: nowISO() });
+    }, `Add price for ${it.name}: ${v.price}`);
+  });
+}
+function editQuote(id, qid){
+  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit()) return;
+  openModal("✏️ Edit price – " + it.name, quoteForm(q), "Save", v => {
+    if (!v.shop || num(v.price) === null) { toast("Shop and price are required", true); return false; }
+    return mutate(d => {
+      const x = findItem(d, id), y = x && x.quotes.find(z => z.id === qid); if (!y) throw new Error("Price was deleted by someone else");
+      Object.assign(y, { shop: v.shop, location: v.location, price: num(v.price), contact: v.contact, notes: v.notes });
+    }, "Edit price for " + it.name);
+  });
+}
+function delQuote(id, qid){
+  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit()) return;
+  if (!confirm(`Delete price ${money(num(q.price))} from ${q.shop}?`)) return;
+  mutate(d => { const x = findItem(d, id); if (x) x.quotes = x.quotes.filter(z => z.id !== qid); }, "Delete price for " + it.name);
+}
+function buy(id, qid){
+  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const pre = (qid && it.quotes.find(x => x.id === qid)) || lowestQuote(it) || {};
+  const pick = it.quotes.length ? `<label>Choose from collected prices<select name="pickQuote" data-item="${it.id}"><option value="">— enter manually —</option>${
+      [...it.quotes].sort((a,b) => (num(a.price) ?? 1e15) - (num(b.price) ?? 1e15)).map(q => `<option value="${q.id}" ${q.id===pre.id?"selected":""}>${esc(q.shop)}${q.location ? " (" + esc(q.location) + ")" : ""} – ${money(num(q.price))}</option>`).join("")}</select></label>` : "";
+  openModal("✅ Final purchase – " + it.name,
+    `<div class="hint">This moves the item to the ✅ Done list.</div>${pick}
+     <div class="row">${fIn("price", "Final price paid ₹ *", pre.price ?? "", "number", 'inputmode="decimal"')}${fIn("date", "Date", today(), "date")}</div>
+     <div class="row">${fIn("shop", "Bought from", pre.shop || "")}${fIn("location", "Location", pre.location || "")}</div>
+     ${fIn("by", "Bought by", S.name)}${fTa("notes", "Notes (bill no., warranty…)", "")}`,
+    "Mark purchased", v => {
+      if (num(v.price) === null) { toast("Please enter the final price", true); return false; }
+      return mutate(d => {
+        const x = findItem(d, id); if (!x) throw new Error("Item was deleted by someone else");
+        x.purchase = { price: num(v.price), shop: v.shop, location: v.location, by: v.by, date: v.date, notes: v.notes, quoteId: v.pickQuote || null, markedBy: S.name, markedAt: nowISO() };
+      }, `Purchased ${it.name} for ${v.price}`).then(ok => { if (ok) celebrate(); return ok; });
+    });
+}
+function undo(id){
+  const it = findItem(data, id); if (!it || !canEdit()) return;
+  if (!confirm(`Move "${it.name}" back to pending?`)) return;
+  mutate(d => { const x = findItem(d, id); if (x) x.purchase = null; }, "Mark pending again: " + it.name);
+}
+
+/* ---------- settings ---------- */
+function openSettings(msg){
+  openModal("⚙ Settings",
+    (msg ? `<div class="hint warn">${esc(msg)}</div>` : "")
+    + fIn("name", "Your name *", S.name, "text", 'placeholder="e.g. Sachin / Mummy / Chachi"')
+    + fIn("token", "Family access key", S.token, "password", 'placeholder="github_pat_…" autocomplete="off"')
+    + `<div class="hint">Saved only on this phone. Ask whoever set up this page for the key or the special share link.</div>`
+    + fIn("wdate", "Wedding date (shows countdown for everyone)", data.weddingDate || "", "date")
+    + `<details style="margin-bottom:10px"><summary style="font-size:.82rem;color:var(--muted);cursor:pointer">Advanced (GitHub repo)</summary><br>
+       <div class="row">${fIn("owner", "GitHub username", S.owner)}${fIn("repo", "Repository", S.repo)}</div>
+       <div class="row">${fIn("branch", "Branch", S.branch)}${fIn("path", "Data file", S.path)}</div></details>
+       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+         <button class="btn" type="button" id="shareBtn">🔗 Copy share link</button>
+         <button class="btn" type="button" id="dlBtn">⬇ Backup</button>
+       </div>`,
+    "Save", async v => {
+      if (!v.name) { toast("Please enter your name", true); return false; }
+      ["name","token","owner","repo","branch","path"].forEach(k => S.set(k, v[k]));
+      if ((v.wdate || "") !== (data.weddingDate || "") && S.token) {
+        closeModal();
+        await mutate(d => { d.weddingDate = v.wdate; }, "Set wedding date " + v.wdate);
+      } else { toast("Settings saved"); load(); }
+      return true;
+    });
+  $("#shareBtn").onclick = async () => {
+    const tok = mBody.querySelector("[name=token]").value.trim();
+    if (!tok) { toast("Enter the access key first", true); return; }
+    const link = location.origin + location.pathname + "#t=" + encodeURIComponent(tok);
+    try { await navigator.clipboard.writeText(link); toast("Link copied – share only in the family group"); }
+    catch { prompt("Copy this link:", link); }
+  };
+  $("#dlBtn").onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "text/plain" }));
+    a.download = "data-backup-" + today() + ".txt"; a.click();
+  };
+}
+
+/* ---------- events ---------- */
+$("#list").addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const { act, id, qid } = b.dataset;
+  ({ addq: () => addQuote(id), buy: () => buy(id), buyq: () => buy(id, qid), editq: () => editQuote(id, qid), delq: () => delQuote(id, qid),
+     edit: () => editItem(id), del: () => delItem(id), undo: () => undo(id) })[act]?.();
+});
+$("#eventTabs").addEventListener("click", e => { const b = e.target.closest("[data-event]"); if (b) { F.event = b.dataset.event; render(); } });
+$("#catFilter").onchange = e => { F.cat = e.target.value; render(); };
+$("#statusFilter").onchange = e => { F.status = e.target.value; render(); };
+$("#search").oninput = e => { F.q = e.target.value; render(); };
+$("#addBtn").onclick = addItem;
+$("#refreshBtn").onclick = () => load();
+$("#settingsBtn").onclick = () => openSettings();
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !modal.classList.contains("open")) load(true); });
+
+/* ---------- decorations: toran + falling petals ---------- */
+(function buildToran(){
+  const w = Math.min(window.innerWidth, 1400), count = Math.max(9, Math.round(w / 34));
+  let html = "";
+  for (let k = 0; k < count; k++) {
+    const len = 3 + (k % 2 ? 0 : 1) + (k % 4 === 0 ? 1 : 0);
+    html += `<div class="strand" style="animation-delay:${(k % 5) * -0.6}s">${"<i></i>".repeat(len)}<b></b></div>`;
+  }
+  $("#toran").innerHTML = html;
+})();
+
+const petals = (function(){
+  const cv = $("#petals"), ctx = cv.getContext("2d");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return { burst(){} };
+  const COLORS = ["#e84a6f","#f06292","#c2185b","#f39c12","#ffb300","#ffcc80","#e57373"];
+  let W, H, dpr, P = [], running = true;
+  function size(){ dpr = Math.min(window.devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  function make(top){
+    return { x: Math.random() * W, y: top ? -20 - Math.random() * H : Math.random() * H, r: 5 + Math.random() * 6,
+      vy: .35 + Math.random() * .7, sway: Math.random() * Math.PI * 2, sw: .6 + Math.random() * .9, rot: Math.random() * 6.28,
+      vr: (Math.random() - .5) * .04, c: COLORS[(Math.random() * COLORS.length) | 0], a: .45 + Math.random() * .4, sparkle: Math.random() < .18 };
+  }
+  function init(){ size(); const n = Math.round(Math.min(40, Math.max(18, W * H / 26000))); P = Array.from({length:n}, () => make(false)); }
+  function draw(p){
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.a;
+    if (p.sparkle) {
+      ctx.fillStyle = "#e0a526"; ctx.beginPath();
+      for (let k = 0; k < 4; k++) { ctx.rotate(Math.PI / 2); ctx.lineTo(0, -p.r * .7); ctx.lineTo(p.r * .18, -p.r * .18); }
+      ctx.fill();
+    } else {
+      ctx.fillStyle = p.c; ctx.beginPath();
+      ctx.moveTo(0, -p.r); ctx.bezierCurveTo(p.r * .9, -p.r * .6, p.r * .7, p.r * .7, 0, p.r);
+      ctx.bezierCurveTo(-p.r * .7, p.r * .7, -p.r * .9, -p.r * .6, 0, -p.r); ctx.fill();
+      ctx.globalAlpha = p.a * .35; ctx.strokeStyle = "#fff"; ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(0, -p.r * .7); ctx.lineTo(0, p.r * .7); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function tick(){
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    for (let k = P.length - 1; k >= 0; k--) {
+      const p = P[k];
+      p.sway += .015; p.y += p.vy; p.x += Math.sin(p.sway) * p.sw * .6; p.rot += p.vr;
+      if (p.vx) { p.x += p.vx; p.vy += .03; p.vx *= .98; }
+      if (p.y > H + 20 || p.x < -30 || p.x > W + 30) { if (p.temp) P.splice(k, 1); else Object.assign(p, make(true), { y: -15 }); continue; }
+      draw(p);
+    }
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener("resize", size);
+  document.addEventListener("visibilitychange", () => { running = !document.hidden; if (running) requestAnimationFrame(tick); });
+  init(); requestAnimationFrame(tick);
+  return { burst(){ for (let k = 0; k < 60; k++) { const p = make(false); Object.assign(p, { x: W / 2, y: H * .55, vx: (Math.random() - .5) * 12, vy: -4 - Math.random() * 6, temp: true, a: .9 }); P.push(p); } } };
+})();
+function celebrate(){ petals.burst(); toast("🎉 Purchased! Moved to Done"); }
+
+load();
+</script>
+</body>
+</html>
