@@ -236,10 +236,21 @@
       "notes": "",
       "addedBy": "Sachin",
       "createdAt": "2026-11-15T09:38:34.333Z",
-      "quotes": [],
+      "quotes": [
+        {
+          "id": "mwhn7ia48d2b",
+          "shop": "Dholikui",
+          "location": "Bharuch",
+          "price": 500,
+          "contact": "",
+          "notes": "",
+          "addedBy": "Sachin",
+          "date": "2026-11-15T09:39:11.308Z"
+        }
+      ],
       "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:38:34.334Z",
+  "updatedAt": "2026-11-15T09:39:11.308Z",
   "updatedBy": "Sachin"
 }
