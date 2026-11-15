@@ -237,8 +237,12 @@ const CONFIG = {
   repo:   "",            // repository name, e.g. "shruti-ki-shaadi"
   branch: "main",
   path:   "data.txt",
-  title:  "Shruti ki Shaadi"
+  title:  "Shruti ki Shaadi",
+  // Built-in family key: paste the code from ⚙ → Owner setup → "Make built-in key" between the quotes.
+  // Then family members only need to type their name – no key needed.
+  familyKey: ""
 };
+const builtInKey = (() => { try { return CONFIG.familyKey ? atob(CONFIG.familyKey).split("").reverse().join("") : ""; } catch { return ""; } })();
 const CAT_ICON = {"Puja Samaan":"🪔","Bartan":"🍲","Electronics":"📺","Furniture":"🛋️","Bedding":"🛏️","Kapde":"👗","Jewellery":"💍",
   "Shringar":"💄","Decoration":"🎊","Mithai & Catering":"🍬","Gifts":"🎁","Other":"📦"};
 const EVENT_ICON = {"Lagan":"💛","Shadi":"💍","Haldi":"🌼","Mehendi":"🌿","Sangeet":"🎶","Reception":"🥂"};
@@ -273,7 +277,7 @@ function detectRepo(){
 const auto = detectRepo();
 const S = {
   get name(){ return localStorage.getItem(LS("name")) || ""; },
-  get token(){ return localStorage.getItem(LS("token")) || ""; },
+  get token(){ return localStorage.getItem(LS("token")) || builtInKey; },
   get owner(){ return localStorage.getItem(LS("owner")) || CONFIG.owner || auto.owner || ""; },
   get repo(){ return localStorage.getItem(LS("repo")) || CONFIG.repo || auto.repo || ""; },
   get branch(){ return localStorage.getItem(LS("branch")) || CONFIG.branch; },
@@ -334,14 +338,28 @@ async function load(quiet){
 }
 function statusLine(source){
   let s = data.updatedAt ? `Updated ${ago(data.updatedAt)}${data.updatedBy ? " by " + data.updatedBy : ""}` : "Synced with family list";
-  if (!S.token) s += " · 👀 View only – tap ⚙ to edit";
+  if (!S.token) s += " · ⚠ Setup not finished (owner: add the family key)";
   else if (source === "file") s += " · ⚠ couldn't reach GitHub";
   return s;
 }
-function canEdit(){
-  if (!S.token || !S.owner || !S.repo) { openSettings("To add or change items, enter your name and the family access key once on this phone."); return false; }
-  if (!S.name) { openSettings("Please enter your name first, so everyone knows who added what."); return false; }
+function canEdit(retry){
+  if (!S.token || !S.owner || !S.repo) {
+    openModal("⚠ Page setup not finished", `<div class="hint warn">Saving is not switched on yet. Please ask the person who made this page to finish the setup (add the family key).</div>`, null, null);
+    return false;
+  }
+  if (!S.name) { askName(retry); return false; }
   return true;
+}
+function askName(retry){
+  openModal("🙏 Namaste! Aapka naam?",
+    `<div class="hint">Just once – so everyone can see who added what.</div>` + fIn("name", "Your name", "", "text", 'placeholder="e.g. Mummy, Chachi, Rahul" autocomplete="given-name"'),
+    "Continue", v => {
+      if (!v.name) { toast("Please type your name", true); return false; }
+      S.set("name", v.name); closeModal(); toast("Welcome, " + v.name + " 🌸");
+      if (retry) setTimeout(retry, 150);
+      return true;
+    });
+  setTimeout(() => { const i = mBody.querySelector("[name=name]"); if (i) i.focus(); }, 300);
 }
 // Every change: fetch latest → apply change → save. Retries if two people save together.
 async function mutate(change, message){
@@ -481,7 +499,7 @@ const modal = $("#modal"), mBody = $("#mBody"), mActions = $("#mActions");
 function openModal(title, body, saveLabel, onSave){
   $("#mTitle").textContent = title;
   mBody.innerHTML = body;
-  mActions.innerHTML = `<button data-close>Cancel</button>` + (onSave ? `<button class="primary" id="mSave">${esc(saveLabel)}</button>` : "");
+  mActions.innerHTML = `<button data-close>${onSave ? "Cancel" : "OK"}</button>` + (onSave ? `<button class="primary" id="mSave">${esc(saveLabel)}</button>` : "");
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
   if (onSave) $("#mSave").onclick = async () => {
@@ -523,7 +541,7 @@ function itemForm(item){
     + fTa("notes", "Notes (brand, size, colour…)", item ? item.notes : "");
 }
 function addItem(){
-  if (!canEdit()) return;
+  if (!canEdit(addItem)) return;
   openModal("🛍️ Add Item", itemForm(null), "Add Item", v => {
     if (!v.name) { toast("Please enter the item name", true); return false; }
     if (!v.event || !v.category) { toast("Please choose function and category", true); return false; }
@@ -535,7 +553,7 @@ function addItem(){
   });
 }
 function editItem(id){
-  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const it = findItem(data, id); if (!it || !canEdit(() => editItem(id))) return;
   openModal("✏️ Edit Item", itemForm(it), "Save", v => {
     if (!v.name) { toast("Please enter the item name", true); return false; }
     return mutate(d => {
@@ -546,7 +564,7 @@ function editItem(id){
   });
 }
 function delItem(id){
-  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const it = findItem(data, id); if (!it || !canEdit(() => delItem(id))) return;
   if (!confirm(`Delete "${it.name}" and all its prices?`)) return;
   mutate(d => { d.items = d.items.filter(x => x.id !== id); }, "Delete item: " + it.name);
 }
@@ -556,7 +574,7 @@ function quoteForm(q){
     + fIn("contact", "Contact / phone", q ? q.contact : "", "tel") + fTa("notes", "Notes (discount, delivery, warranty…)", q ? q.notes : "");
 }
 function addQuote(id){
-  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const it = findItem(data, id); if (!it || !canEdit(() => addQuote(id))) return;
   openModal("💰 Add price – " + it.name, quoteForm(null), "Add price", v => {
     if (!v.shop || num(v.price) === null) { toast("Shop and price are required", true); return false; }
     return mutate(d => {
@@ -566,7 +584,7 @@ function addQuote(id){
   });
 }
 function editQuote(id, qid){
-  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit()) return;
+  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit(() => editQuote(id, qid))) return;
   openModal("✏️ Edit price – " + it.name, quoteForm(q), "Save", v => {
     if (!v.shop || num(v.price) === null) { toast("Shop and price are required", true); return false; }
     return mutate(d => {
@@ -576,12 +594,12 @@ function editQuote(id, qid){
   });
 }
 function delQuote(id, qid){
-  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit()) return;
+  const it = findItem(data, id), q = it && it.quotes.find(x => x.id === qid); if (!q || !canEdit(() => delQuote(id, qid))) return;
   if (!confirm(`Delete price ${money(num(q.price))} from ${q.shop}?`)) return;
   mutate(d => { const x = findItem(d, id); if (x) x.quotes = x.quotes.filter(z => z.id !== qid); }, "Delete price for " + it.name);
 }
 function buy(id, qid){
-  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const it = findItem(data, id); if (!it || !canEdit(() => buy(id, qid))) return;
   const pre = (qid && it.quotes.find(x => x.id === qid)) || lowestQuote(it) || {};
   const pick = it.quotes.length ? `<label>Choose from collected prices<select name="pickQuote" data-item="${it.id}"><option value="">— enter manually —</option>${
       [...it.quotes].sort((a,b) => (num(a.price) ?? 1e15) - (num(b.price) ?? 1e15)).map(q => `<option value="${q.id}" ${q.id===pre.id?"selected":""}>${esc(q.shop)}${q.location ? " (" + esc(q.location) + ")" : ""} – ${money(num(q.price))}</option>`).join("")}</select></label>` : "";
@@ -599,7 +617,7 @@ function buy(id, qid){
     });
 }
 function undo(id){
-  const it = findItem(data, id); if (!it || !canEdit()) return;
+  const it = findItem(data, id); if (!it || !canEdit(() => undo(id))) return;
   if (!confirm(`Move "${it.name}" back to pending?`)) return;
   mutate(d => { const x = findItem(d, id); if (x) x.purchase = null; }, "Mark pending again: " + it.name);
 }
@@ -608,32 +626,29 @@ function undo(id){
 function openSettings(msg){
   openModal("⚙ Settings",
     (msg ? `<div class="hint warn">${esc(msg)}</div>` : "")
-    + fIn("name", "Your name *", S.name, "text", 'placeholder="e.g. Sachin / Mummy / Chachi"')
-    + fIn("token", "Family access key", S.token, "password", 'placeholder="github_pat_…" autocomplete="off"')
-    + `<div class="hint">Saved only on this phone. Ask whoever set up this page for the key or the special share link.</div>`
+    + fIn("name", "Your name", S.name, "text", 'placeholder="e.g. Mummy, Chachi, Rahul"')
     + fIn("wdate", "Wedding date (shows countdown for everyone)", data.weddingDate || "", "date")
-    + `<details style="margin-bottom:10px"><summary style="font-size:.82rem;color:var(--muted);cursor:pointer">Advanced (GitHub repo)</summary><br>
+    + `<button class="btn" type="button" id="dlBtn" style="width:100%;margin-bottom:12px">⬇ Download backup of the list</button>
+       <details style="margin-bottom:10px"><summary style="font-size:.9rem;color:var(--muted);cursor:pointer">🔧 Owner setup (only for the person who made this page)</summary><br>
+       ${fIn("token", "GitHub key for this phone (optional)", localStorage.getItem(LS("token")) || "", "password", 'placeholder="github_pat_…" autocomplete="off"')}
+       <button class="btn" type="button" id="embedBtn" style="width:100%;margin-bottom:12px">🔒 Make built-in key (for CONFIG.familyKey)</button>
        <div class="row">${fIn("owner", "GitHub username", S.owner)}${fIn("repo", "Repository", S.repo)}</div>
-       <div class="row">${fIn("branch", "Branch", S.branch)}${fIn("path", "Data file", S.path)}</div></details>
-       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-         <button class="btn" type="button" id="shareBtn">🔗 Copy share link</button>
-         <button class="btn" type="button" id="dlBtn">⬇ Backup</button>
-       </div>`,
+       <div class="row">${fIn("branch", "Branch", S.branch)}${fIn("path", "Data file", S.path)}</div></details>`,
     "Save", async v => {
-      if (!v.name) { toast("Please enter your name", true); return false; }
-      ["name","token","owner","repo","branch","path"].forEach(k => S.set(k, v[k]));
-      if ((v.wdate || "") !== (data.weddingDate || "") && S.token) {
+      if (v.name) S.set("name", v.name);
+      ["token","owner","repo","branch","path"].forEach(k => S.set(k, v[k]));
+      if ((v.wdate || "") !== (data.weddingDate || "")) {
         closeModal();
         await mutate(d => { d.weddingDate = v.wdate; }, "Set wedding date " + v.wdate);
       } else { toast("Settings saved"); load(); }
       return true;
     });
-  $("#shareBtn").onclick = async () => {
+  $("#embedBtn").onclick = async () => {
     const tok = mBody.querySelector("[name=token]").value.trim();
-    if (!tok) { toast("Enter the access key first", true); return; }
-    const link = location.origin + location.pathname + "#t=" + encodeURIComponent(tok);
-    try { await navigator.clipboard.writeText(link); toast("Link copied – share only in the family group"); }
-    catch { prompt("Copy this link:", link); }
+    if (!tok) { toast("Paste your GitHub key in the box above first", true); return; }
+    const code = btoa(tok.split("").reverse().join(""));
+    try { await navigator.clipboard.writeText(code); toast("Copied! Paste it into familyKey in index.html"); }
+    catch { prompt("Copy this and paste into familyKey in index.html:", code); }
   };
   $("#dlBtn").onclick = () => {
     const a = document.createElement("a");
