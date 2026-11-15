@@ -295,8 +295,20 @@
         }
       ],
       "purchase": null
+    },
+    {
+      "id": "mwhncgr2u57y",
+      "event": "Lagan",
+      "category": "Bartan",
+      "name": "Kitchen Set",
+      "qty": "1",
+      "notes": "Sare kitchen ka saaman dabbe kadhayi sab",
+      "addedBy": "Sachin",
+      "createdAt": "2026-11-15T09:43:02.606Z",
+      "quotes": [],
+      "purchase": null
     }
   ],
-  "updatedAt": "2026-11-15T09:41:49.765Z",
+  "updatedAt": "2026-11-15T09:43:02.606Z",
   "updatedBy": "Sachin"
 }
